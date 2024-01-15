@@ -1,0 +1,8 @@
+vim.keymap.set("n", "<leader>pf", "<cmd>Telescope find_files<cr>")
+vim.keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<cr>")
+vim.keymap.set("n", "<leader>pg", "<cmd>Telescope git_files<cr>")
+vim.keymap.set("n", "<leader>ps", "<cmd>Telescope live_grep<cr>")
+-- local builtin = require('telescope.builtin')
+-- vim.keymap.set('n', '<leader>ps', function()
+--         builtin.grep_string({ search = vim.fn.input("Grep > ") })
+--     end)

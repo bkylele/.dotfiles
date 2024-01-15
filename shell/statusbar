@@ -1,0 +1,46 @@
+#! /bin/sh
+
+getDateTime() {
+    # d="$(date +%F) ($(date +%a)) $(date +%H:%M)"
+    d="$(date '+%F (%a) %I:%M %p')"
+}
+
+getBattery() {
+    isPlugged="$(cat /sys/class/power_supply/ADP1/online)"
+    charge="$(cat /sys/class/power_supply/BAT1/capacity)"
+    if [ $isPlugged -eq 1 ]; then
+        charge="⚡ $charge%"
+    elif [ $(($charge)) -lt 25 ]; then
+        charge="🪫 $charge%"
+    else
+        charge=" $charge%"
+    fi
+}
+
+getVolume() {
+    vol="$(pamixer --get-volume)"
+    if [ $vol -eq "0" ]; then
+        vol=" $vol%"
+    else
+        vol=" $vol%"
+    fi
+}
+
+getInfo() {
+    getDateTime
+    getBattery
+    getVolume
+    cpuUsage=$(top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+    memUsage=$(free -m | awk '/Mem/ {printf "%d%%", $3/$2 * 100}')
+}
+
+while :; do
+    getInfo
+
+    xsetroot -name "| $memUsage MEM | $cpuUsage CPU | $vol | $charge | $d "
+
+    echo $$ > ~/.local/bin/barsleep.pid
+
+    sleep 1m
+done
+

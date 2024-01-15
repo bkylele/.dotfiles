@@ -1,0 +1,10 @@
+xrdb $XDG_CONFIG_HOME/x11/xresources
+xwallpaper --zoom $XDG_CONFIG_HOME/wall.png
+xset r rate 250
+xrandr --output eDP-1 --mode 2880x1920 --rate 120.00
+
+xcompmgr -c &
+statusbar &
+sxhkd &
+
+exec dwm

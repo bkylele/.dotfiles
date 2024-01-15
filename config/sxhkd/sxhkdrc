@@ -1,0 +1,38 @@
+
+# Open browser
+super + q
+    brave
+
+# Open xournal
+super + w
+    xournalpp
+
+# Open discord
+super + d
+    discord
+
+# Raise volume
+# For all volume controls, refresh the statusbar
+XF86AudioRaiseVolume
+    pactl set-sink-volume @DEFAULT_SINK@ +5%; pkill -P $(<~/.local/bin/barsleep.pid) sleep
+
+# Lower volume
+XF86AudioLowerVolume
+    pactl set-sink-volume @DEFAULT_SINK@ -5%; pkill -P $(<~/.local/bin/barsleep.pid) sleep
+
+# Mute
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Screenshot
+Print
+    import $HOME/pix/image.png && xclip -selection clipboard -target image/png -i $HOME/pix/image.png
+
+# Brightness Up
+XF86MonBrightnessUp
+   brightnessctl -d "intel_backlight" set +5% 
+
+# Brightness Down
+XF86MonBrightnessDown
+   brightnessctl -d "intel_backlight" set 5%-
+
