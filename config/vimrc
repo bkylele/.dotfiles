@@ -2,7 +2,7 @@
 "------------------------------------------------------------
 "                           OPTIONS
 "------------------------------------------------------------
-set guicursor = ""
+set guicursor=""
 
 set nu rnu
 
@@ -17,31 +17,35 @@ set nowrap
 
 set noswapfile
 set nobackup
-set undodir=$HOME/.vim/undodir
+set undodir="/.vim/undodir"
 set undofile
 
 set nohlsearch
 set incsearch
 set smartcase
 
-
 set scrolloff=8
 set conceallevel=2
 
-set background=dark
 set nocompatible
 syntax on
 filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
 
 
 "------------------------------------------------------------
 "                           REMAPS
 "------------------------------------------------------------
 
-let mapleader = " "
+let mapleader=" "
+
+"" Toggle cursor line and cursor column
+nnoremap <leader>l <cmd>set cuc!<CR><cmd>set cul!<CR>
 
 cnoreabbrev W w
 nnoremap <leader>pv <cmd>Ex<CR>
+
+nnoremap K <Nop>
 
 inoremap <C-c> <Esc>
 
@@ -64,14 +68,13 @@ vnoremap <leader>p "_dP
 "" Copy to system clipboard
 vnoremap <leader>y "+y
 
-"" Define line highlight color
-highlight LineHighlight ctermbg=darkgray guibg=darkblue
-
-"" highlight the current line
-nnoremap <leader>l <cmd>call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
-
-"" clear all highlighted lines
-nnoremap <leader>c <cmd>call clearmatches()<CR>
+"" Line highlights not working rn :/
+" "" define line highlight color
+" highlight LineHighlight ctermbg=darkgray guibg=darkgray
+" "" highlight the current line
+" nnoremap <silent> <Leader>l :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
+" "" clear all the highlighted lines
+" nnoremap <silent> <Leader>c :call clearmatches()<CR>
 
 
 "------------------------------------------------------------
@@ -80,20 +83,23 @@ nnoremap <leader>c <cmd>call clearmatches()<CR>
 
 call plug#begin()
 
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+" Plug 'thomasfaingnaert/vim-lsp-snippets'
+" Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
 
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'itchyny/lightline.vim'
-
 
 Plug 'vimwiki/vimwiki'
+Plug 'lervag/vimtex'
 
 call plug#end()
 
@@ -117,15 +123,63 @@ nnoremap <leader>gs <cmd>Git<CR>
 
 "" ---------------------- Appearance ------------------------
 " Colorscheme
+set background=dark
 set termguicolors
 colorscheme catppuccin_mocha
 
-" lightline config
-" set laststatus=2
-" set noshowmode
-" let g:lightline = {
-"             \ 'colorscheme': 'wombat',
-"             \ }
+"" ------------------------ LSP -----------------------------
+
+set completeopt=longest,menuone
+inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> gR <plug>(lsp-rename)
+    nmap <buffer> g[ <plug>(lsp-previous-diagnostic)
+    nmap <buffer> g] <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+    
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 
+"" ------------------------ Wiki ----------------------------
+
+let g:vimwiki_list = [{'path': '~/dox/wiki/', 
+            \ 'path_html': '~/dox/wiki/html'}]
+
+
+
+"" ------------------------ LaTex ----------------------------
+let g:vimtex_compiler_latexmk = {
+            \ 'executable': 'latexmk',
+            \ 'options': [
+            \   '-synctex=1',
+            \   '-interaction=nonstopmode',
+            \   '-file-line-error',
+            \ ],
+            \ 'out_dir': 'build',
+            \ }
+
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_general_options = '-reuse-instance -forward-search -inverse-search @tex @line @pdf'
 
