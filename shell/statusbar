@@ -39,7 +39,7 @@ while :; do
 
     xsetroot -name "| $memUsage MEM | $cpuUsage CPU | $vol | $charge | $d "
 
-    echo $$ > ~/.local/bin/barsleep.pid
+    echo $$ > ~/.cache/barsleep.pid
 
     sleep 1m
 done

@@ -1,7 +1,7 @@
 
 # Open browser
 super + q
-    brave
+    firefox
 
 # Open xournal
 super + w
@@ -14,11 +14,11 @@ super + d
 # Raise volume
 # For all volume controls, refresh the statusbar
 XF86AudioRaiseVolume
-    pactl set-sink-volume @DEFAULT_SINK@ +5%; pkill -P $(<~/.local/bin/barsleep.pid) sleep
+    pactl set-sink-volume @DEFAULT_SINK@ +5%; pkill -P $(<~/.cache/barsleep.pid) sleep
 
 # Lower volume
 XF86AudioLowerVolume
-    pactl set-sink-volume @DEFAULT_SINK@ -5%; pkill -P $(<~/.local/bin/barsleep.pid) sleep
+    pactl set-sink-volume @DEFAULT_SINK@ -5%; pkill -P $(<~/.cache/barsleep.pid) sleep
 
 # Mute
 XF86AudioMute
@@ -26,7 +26,7 @@ XF86AudioMute
 
 # Screenshot
 Print
-    import $HOME/pix/image.png && xclip -selection clipboard -target image/png -i $HOME/pix/image.png
+    import /tmp/scnsht.png && xclip -selection clipboard -target image/png -i /tmp/scnsht.png
 
 # Brightness Up
 XF86MonBrightnessUp

@@ -1,0 +1,206 @@
+
+"------------------------------------------------------------
+"                           OPTIONS
+"------------------------------------------------------------
+set guicursor=""
+
+set nu rnu
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set smartindent
+
+set nowrap
+
+set noswapfile
+set nobackup
+set undodir=$HOME/.local/share/vim/undodir
+set undofile
+
+set viminfofile=$HOME/.vim/viminfo
+
+set nohlsearch
+set incsearch
+set smartcase
+
+set scrolloff=8
+set conceallevel=2
+
+set nocompatible
+syntax on
+filetype plugin indent on
+
+"------------------------------------------------------------
+"                           REMAPS
+"------------------------------------------------------------
+
+let mapleader=" "
+
+"" Toggle cursor line and cursor column
+" nnoremap <leader>l :set cuc! cul!<CR>
+
+cnoreabbrev W w
+
+nnoremap <leader>pv :Ex<CR>
+nnoremap K <Nop>
+
+inoremap <C-c> <Esc>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"" Center cursor after jumping half a page
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+"" Delete into void register before pasting
+vnoremap <leader>p "_dP
+
+"" Copy to system clipboard
+vnoremap <leader>y "+y
+
+nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
+nnoremap <silent> <Leader>c :call clearmatches()<CR>
+
+
+"------------------------------------------------------------
+"                           PLUGINS
+"------------------------------------------------------------
+
+call plug#begin()
+
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+" Plug 'thomasfaingnaert/vim-lsp-snippets'
+" Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-surround'
+
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'vim-airline/vim-airline'
+
+Plug 'vimwiki/vimwiki'
+Plug 'lervag/vimtex'
+
+call plug#end()
+
+
+"------------------------------------------------------------
+"                     PLUGIN CONFIGURATION
+"------------------------------------------------------------
+
+
+"" ------------------------ Tools ---------------------------
+" Fzf
+nnoremap <leader>pf :Files<CR>
+nnoremap <leader>pg :GFiles<CR>
+nnoremap <leader>pp :Lines<CR>
+nnoremap <leader>ps :RG<CR>
+
+" Undo Tree
+nnoremap <leader>u :UndotreeToggle<CR>
+
+" Fugitive
+nnoremap <leader>gs :Git<CR>
+
+"" ---------------------- Appearance ------------------------
+" Colorscheme
+set background=dark
+set termguicolors
+colorscheme catppuccin_mocha
+
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+"" ------------------------ LSP -----------------------------
+
+set completeopt=longest,menuone
+inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:lsp_diagnostics_virtual_text_align = "after"
+set omnifunc=syntaxcomplete#Complete
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> gR <plug>(lsp-rename)
+    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> gA <plug>(lsp-code-action-float)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+    
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+command! LspDisable call lsp#disable()
+command! LspEnable call lsp#enable()
+
+
+"" ---------------------- Snippets --------------------------
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+if executable('clangd')
+    augroup vim_lsp_cpp
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'clangd',
+                    \ 'cmd': {server_info->['clangd']},
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+                    \ })
+        autocmd FileType c,cpp,objc,objcpp,cc setlocal omnifunc=lsp#complete
+    augroup end
+endif
+
+
+"" ------------------------ Wiki ----------------------------
+
+let g:vimwiki_list = [{'path': '~/dox/wiki/', 
+            \ 'path_html': '~/dox/wiki/html'}]
+
+
+"" ------------------------ LaTex ----------------------------
+let g:vimtex_compiler_latexmk = {
+            \ 'executable': 'latexmk',
+            \ 'options': [
+            \   '-synctex=1',
+            \   '-interaction=nonstopmode',
+            \   '-file-line-error',
+            \ ],
+            \ 'out_dir': 'build',
+            \ }
+
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_general_options = '-reuse-instance -forward-search -inverse-search @tex @line @pdf'
+
