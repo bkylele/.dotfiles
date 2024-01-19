@@ -17,7 +17,7 @@ set nowrap
 
 set noswapfile
 set nobackup
-set undodir="/.vim/undodir"
+set undodir=$HOME."/.vim/undodir"
 set undofile
 
 set nohlsearch
@@ -40,11 +40,11 @@ set omnifunc=syntaxcomplete#Complete
 let mapleader=" "
 
 "" Toggle cursor line and cursor column
-nnoremap <leader>l <cmd>set cuc!<CR><cmd>set cul!<CR>
+nnoremap <leader>l :set cuc!<CR>:set cul!<CR>
 
 cnoreabbrev W w
-nnoremap <leader>pv <cmd>Ex<CR>
 
+nnoremap <leader>pv :Ex<CR>
 nnoremap K <Nop>
 
 inoremap <C-c> <Esc>
@@ -53,10 +53,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
-"" Move around visual selections
-" vnoremap J <cmd>m '>+1<CR>gv=gv
-" vnoremap K <cmd>m '<-2<CR>gv=gv
 
 "" Center cursor after jumping half a page
 nnoremap <C-d> <C-d>zz
@@ -85,7 +81,7 @@ call plug#begin()
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 " Plug 'thomasfaingnaert/vim-lsp-snippets'
 " Plug 'thomasfaingnaert/vim-lsp-ultisnips'
@@ -110,16 +106,16 @@ call plug#end()
 
 "" ------------------------ Tools ---------------------------
 " Fzf
-nnoremap <leader>pf <cmd>Files<CR>
-nnoremap <leader>pg <cmd>GFiles<CR>
-nnoremap <leader>pp <cmd>Lines<CR>
-nnoremap <leader>ps <cmd>RG<CR>
+nnoremap <leader>pf :Files<CR>
+nnoremap <leader>pg :GFiles<CR>
+nnoremap <leader>pp :Lines<CR>
+nnoremap <leader>ps :RG<CR>
 
 " Undo Tree
-nnoremap <leader>u <cmd>UndotreeToggle<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
 
 " Fugitive
-nnoremap <leader>gs <cmd>Git<CR>
+nnoremap <leader>gs :Git<CR>
 
 "" ---------------------- Appearance ------------------------
 " Colorscheme
@@ -129,44 +125,65 @@ colorscheme catppuccin_mocha
 
 "" ------------------------ LSP -----------------------------
 
-set completeopt=longest,menuone
-inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" set completeopt=longest,menuone
+" inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" 
+" function! s:on_lsp_buffer_enabled() abort
+"     setlocal omnifunc=lsp#complete
+"     setlocal signcolumn=yes
+"     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"     nmap <buffer> gd <plug>(lsp-definition)
+"     nmap <buffer> gs <plug>(lsp-document-symbol-search)
+"     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+"     nmap <buffer> gr <plug>(lsp-references)
+"     nmap <buffer> gi <plug>(lsp-implementation)
+"     nmap <buffer> gt <plug>(lsp-type-definition)
+"     nmap <buffer> gR <plug>(lsp-rename)
+"     nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+"     nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+"     nmap <buffer> K <plug>(lsp-hover)
+"     " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+"     " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+" 
+"     let g:lsp_format_sync_timeout = 1000
+"     " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+"     
+"     " refer to doc to add more commands
+" endfunction
+" 
+" augroup lsp_install
+"     au!
+"     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+"     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+" augroup END
 
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> gR <plug>(lsp-rename)
-    nmap <buffer> g[ <plug>(lsp-previous-diagnostic)
-    nmap <buffer> g] <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-    let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-    
-    " refer to doc to add more commands
-endfunction
+"" ---------------------- Snippets --------------------------
 
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+if executable('clangd')
+    augroup vim_lsp_cpp
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'clangd',
+                    \ 'cmd': {server_info->['clangd']},
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+                    \ })
+        autocmd FileType c,cpp,objc,objcpp,cc setlocal omnifunc=lsp#complete
+    augroup end
+endif
 
 
 "" ------------------------ Wiki ----------------------------
 
 let g:vimwiki_list = [{'path': '~/dox/wiki/', 
             \ 'path_html': '~/dox/wiki/html'}]
-
 
 
 "" ------------------------ LaTex ----------------------------
