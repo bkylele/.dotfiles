@@ -149,7 +149,6 @@ function! s:on_lsp_buffer_enabled() abort
     let g:lsp_format_sync_timeout = 1000
     " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
     
-    " refer to doc to add more commands
 endfunction
 
 augroup lsp_install
@@ -157,6 +156,9 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+command! LspDisable call lsp#disable()
+command! LspEnable call lsp#enable()
 
 
 "" ---------------------- Snippets --------------------------
