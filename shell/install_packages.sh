@@ -80,6 +80,9 @@ else
     echo "xinit FAILED TO INSTALL!" >> $log_file
 fi
 
+sudo pacman -Sq --noconfirm xwallpaper
+sudo pacman -Sq --noconfirm brightnessctl
+
 sudo pacman -Sq --noconfirm sxhkd
 if type -p sxhkd > /dev/null; then
     echo "sxhkd installed successfully" >> $log_file
@@ -104,8 +107,8 @@ sudo pacman -Sq --noconfirm zathura-pdf-mupdf
 
 sudo pacman -Sq --noconfirm ttf-jetbrains-mono
 sudo pacman -Sq --noconfirm ttf-jetbrains-mono-nerd
-sudo pacman -Sq --noconfirm ttf-nerdfonts-symbols
-sudo pacman -Sq --noconfirm ttf-nerdfonts-symbols-mono
+sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols
+sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols-mono
 
 
 if type -p yay > /dev/null; then
