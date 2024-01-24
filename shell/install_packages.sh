@@ -42,6 +42,7 @@ download_package(xorg-xinit)
 download_package(xwallpaper)
 download_package(brightnessctl)
 download_package(sxhkd)
+download_package(mpv)
 download_package(zathura)
 download_package(zathura-pdf-mupdf)
 
@@ -51,18 +52,6 @@ sudo pacman -Sq --noconfirm ttf-jetbrains-mono-nerd
 sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols
 sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols-mono
 sudo pacman -Sq --noconfirm noto-fonts-cjk
-
-
-if type -p yay > /dev/null; then
-    yay -Sq --noconfirm brave-bin
-    if type -p brave > /dev/null; then
-        echo "brave installed successfully" >> $log_file
-    else
-        echo "brave FAILED TO INSTALL!" >> $log_file
-    fi
-else
-    echo "yay not available, skipping brave install" >> $log_file
-fi
 
 echo >> $log_file
 
