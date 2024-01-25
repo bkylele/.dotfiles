@@ -13,8 +13,8 @@ alias grep='grep --color=auto'
 # PS1='[\u@\h \W]\$ '
 PS1='\[\033[1;31m\][\[\033[1;33m\]\u\[\033[1;32m\]@\[\033[1;34m\]\h:\[\033[35m\]/\w\[\033[31m\]]\[\033[00m\] '
 
-# Add '~/.local/bin/ to $PATH
-export PATH=$PATH:~/.local/bin/
+# Add '~/.dotfiles/shell/ to $PATH
+export PATH=$PATH:~/.dotfiles/shell/
 
 alias py='python'
 alias vi='vim'
@@ -24,12 +24,11 @@ alias ls='ls -la'
 ############################## Default Programs ###############################
 export EDITOR="vim"
 export TERMINAL="st"
-export BROWSER="qutebrowser"
-
 
 ############################## Clean-up ###############################
 HISTFILE=""
 export LESSHISTFILE="-"
+
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"

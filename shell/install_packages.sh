@@ -44,13 +44,15 @@ if [[ $prompt =~ [yY] ]] then
     download_package xwallpaper
     download_package brightnessctl
     download_package sxhkd
-    download_package pamixer
 
+    download_package pamixer
+    download_package sxiv
+    download_package xournalpp
     download_package mpv
     download_package zathura
     sudo pacman -Sq --noconfirm zathura-pdf-mupdf
+    sudo pacman -Sq --noconfirm imagemagick
 
-    download_package xournalpp
 
     echo "Trying fonts..." >> $log_file
     sudo pacman -Sq --noconfirm ttf-jetbrains-mono

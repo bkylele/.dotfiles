@@ -17,9 +17,10 @@ set nowrap
 
 set noswapfile
 set nobackup
-
 set undodir=$HOME/.local/share/vim/undodir
 set undofile
+
+set viminfofile=$HOME/.vim/viminfo
 
 set nohlsearch
 set incsearch

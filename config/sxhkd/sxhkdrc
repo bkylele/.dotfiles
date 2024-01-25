@@ -26,7 +26,7 @@ XF86AudioMute
 
 # Screenshot
 Print
-    import $HOME/pix/image.png && xclip -selection clipboard -target image/png -i $HOME/pix/image.png
+    import /tmp/scnsht.png && xclip -selection clipboard -target image/png -i /tmp/scnsht.png
 
 # Brightness Up
 XF86MonBrightnessUp
