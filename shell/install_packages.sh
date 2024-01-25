@@ -5,7 +5,7 @@ log_file="$(dirname "$0")/install_progress_log.txt"
 sudo pacman -Syuq --noconfirm
 
 
-download_package() {
+download_package()  {
     sudo pacman -S --noconfirm $1
     if type -p $1 > /dev/null; then
         echo "$1 installed successfully"  >> $log_file
@@ -21,13 +21,13 @@ download_package() {
 
 echo "Trying to install command-line utils..." >> $log_file
 
-download_package(tmux)
-download_package(ranger)
-download_package(sl)
-download_package(ripgrep)
-download_package(unzip)
-download_package(wget)
-download_package(curl)
+download_package tmux
+download_package ranger
+download_package sl
+download_package ripgrep
+download_package unzip
+download_package wget
+download_package curl
 
 echo >> $log_file
 
@@ -37,14 +37,16 @@ echo >> $log_file
 # --------------
 echo "Trying to install GUI..." >> $log_file
 
-download_package(xorg)
-download_package(xorg-xinit)
-download_package(xwallpaper)
-download_package(brightnessctl)
-download_package(sxhkd)
-download_package(mpv)
-download_package(zathura)
-download_package(zathura-pdf-mupdf)
+download_package xorg
+download_package xorg-xinit
+download_package xwallpaper
+download_package brightnessctl
+download_package sxhkd
+download_package pamixer
+
+download_package mpv
+download_package zathura
+sudo pacman -Sq --noconfirm zathura-pdf-mupdf
 
 echo "Trying to fonts..." >> $log_file
 sudo pacman -Sq --noconfirm ttf-jetbrains-mono
