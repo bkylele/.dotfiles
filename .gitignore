@@ -1,17 +1,17 @@
 
 /*
 
-!nvim/
-!ranger/
-!sxhkd/
-!tmux/
-!vim/
-!suckless/
-!x11/
+!config/nvim/
+!config/ranger/
+!config/sxhkd/
+!config/tmux/
+!config/vim/
+!config/suckless/
+!config/x11/
 
 
-!user-dirs.dirs
-!mimeapps.list
-!.bashrc
-!.bash_profile
-!wall.png
+!config/user-dirs.dirs
+!config/mimeapps.list
+!config/.bashrc
+!config/.bash_profile
+!config/wall.png
