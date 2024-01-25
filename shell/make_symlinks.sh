@@ -6,19 +6,21 @@ dotfiles_dir=~/.dotfiles
 # Remove existing directories
 rm -rf ~/.config > /dev/null 2>&1
 rm -rf ~/.vim > /dev/null 2>&1
-rm -rf ~/.bash* > /dev/null 2>&1
+rm -rf ~/.bashrc > /dev/null 2>&1
+rm -rf ~/.bash_profile > /dev/null 2>&1
 
 
 # Make links
 ln -sf $dotfiles_dir/config/vim/ ~/.vim
 mkdir ~/.local/share/vim/undodir/
 ln -sf $dotfiles_dir/config/ ~/.config
-ln -sf $dotfiles_dir/config/.bashrc/ ~/.bashrc
-ln -sf $dotfiles_dir/config/.bash_profile  ~/.bash_profile
+ln -sf $dotfiles_dir/config/.bashrc ~/.bashrc
+ln -sf $dotfiles_dir/config/.bash_profile ~/.bash_profile
 
 
 # Download tmux plugin manager
-git clone https://github.com/tmux-plugins/tpm ~/.config/tmuxtpm/plugins/tpm
+rm -rf ~/.config/tmuxtpm/
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmuxtpm
 tmux source ~/.config/tmux/tmux.conf
 
 
