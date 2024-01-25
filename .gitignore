@@ -1,6 +1,17 @@
 
-config/vim/plugged/
-config/vim/.netrwhist
+/*
 
-config/pulse/
-config/ranger/colorschemes/__pycache__/
+!nvim/
+!ranger/
+!sxhkd/
+!tmux/
+!vim/
+!suckless/
+!x11/
+
+
+!user-dirs.dirs
+!mimeapps.list
+!.bashrc
+!.bash_profile
+!wall.png
