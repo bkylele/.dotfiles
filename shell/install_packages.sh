@@ -45,6 +45,7 @@ if [[ $prompt =~ [yY] ]] then
     download_package brightnessctl
     download_package sxhkd
 
+    download_package xclip
     download_package pamixer
     download_package sxiv
     download_package xournalpp
