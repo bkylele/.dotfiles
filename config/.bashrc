@@ -26,7 +26,7 @@ export EDITOR="vim"
 export TERMINAL="st"
 
 ############################## Clean-up ###############################
-HISTFILE=""
+unset HISTFILE
 export LESSHISTFILE="-"
 
 export XDG_DATA_HOME="$HOME/.local/share"
