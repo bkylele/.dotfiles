@@ -6,8 +6,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
 
 # Change prompt:
 # PS1='[\u@\h \W]\$ '
@@ -18,7 +16,8 @@ export PATH=$PATH:~/.dotfiles/shell/
 
 alias py='python'
 alias vi='vim'
-alias ls='ls -la'
+alias ls='ls -la --color=auto'
+alias grep='grep --color=auto'
 
 
 ############################## Default Programs ###############################
