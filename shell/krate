@@ -1,0 +1,4 @@
+#! /bin/sh
+
+# reset the keyboard repeat delay whenever it acts up
+xset r rate 250
