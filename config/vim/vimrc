@@ -33,21 +33,37 @@ set nocompatible
 syntax on
 filetype plugin indent on
 
+
+" ---------------------- File Specific --------------------
+
+" Set spell checker
+autocmd FileType tex setlocal spell
+
+" Lisp filetype
+autocmd BufEnter *.l setlocal ft=lisp
+
+
 "------------------------------------------------------------
 "                           REMAPS
 "------------------------------------------------------------
 
 let mapleader=" "
 
-"" Toggle cursor line and cursor column
-" nnoremap <leader>l :set cuc! cul!<CR>
-
-cnoreabbrev W w
+" I save as a fidget, so only save on upate
+cnoreabbrev w update
+cnoreabbrev W update
+cnoreabbrev Mak mak
+cnoreabbrev Mka mak
+cnoreabbrev mka mak
 
 nnoremap <leader>pv :Ex<CR>
+
+" disable man page lookup
 nnoremap K <Nop>
 
+" Escape aliases
 inoremap <C-c> <Esc>
+inoremap jk <Esc>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -67,6 +83,12 @@ vnoremap <leader>y "+y
 nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
 nnoremap <silent> <Leader>c :call clearmatches()<CR>
 
+"" Quickfix list
+nnoremap <leader>[ :copen<CR>
+nnoremap <leader>] :cclose<CR>
+nnoremap g[ :cprev<CR>
+nnoremap g] :cnext<CR>
+
 
 "------------------------------------------------------------
 "                           PLUGINS
@@ -77,9 +99,11 @@ call plug#begin()
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-" Plug 'thomasfaingnaert/vim-lsp-snippets'
-" Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+
+Plug 'Exafunction/codeium.vim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -125,9 +149,11 @@ colorscheme catppuccin_mocha
 "" ------------------------ LSP -----------------------------
 
 set completeopt=longest,menuone
-inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 let g:lsp_diagnostics_virtual_text_align = "after"
-set omnifunc=syntaxcomplete#Complete
+let g:lsp_async_completion=1
+
+inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -142,14 +168,16 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gR <plug>(lsp-rename)
     nmap <buffer> [d <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]d <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> gD <plug>(lsp-document-diagnostics)
+    nmap <buffer> K  <plug>(lsp-hover)
     nmap <buffer> gA <plug>(lsp-code-action-float)
-    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-b> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
     " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-    
+
 endfunction
 
 augroup lsp_install
@@ -184,6 +212,17 @@ if executable('clangd')
 endif
 
 
+"" ---------------------- Codeium --------------------------
+
+let g:codeium_no_map_tab = 1
+
+imap <script><silent><nowait><expr> <C-s> codeium#Accept()
+imap <C-[>  <cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-]>  <cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-x>  <cmd>call codeium#Clear()<CR>
+
+
+
 "" ------------------------ Wiki ----------------------------
 
 let g:vimwiki_list = [{'path': '~/dox/wiki/', 
@@ -203,4 +242,5 @@ let g:vimtex_compiler_latexmk = {
 
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_general_options = '-reuse-instance -forward-search -inverse-search @tex @line @pdf'
+
 
