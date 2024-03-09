@@ -16,7 +16,6 @@ export PATH=$PATH:~/.dotfiles/shell/
 
 alias py='python'
 alias vi='vim'
-alias ls='ls -la --color=auto'
 alias grep='grep --color=auto'
 
 
