@@ -1,45 +1,51 @@
 "------------------------------------------------------------
 "                           OPTIONS
 "------------------------------------------------------------
+
+" set block cursor
 set guicursor=""
 
+" set relative and absolute line numbers
 set nu rnu
 
+" cursor is minimum of 8 lines from the edges of the screen
+set scrolloff=8
+set conceallevel=2
+
+" set tab width
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+" auto indent new lines
 set smartindent
 
+" don't wrap lines
 set nowrap
 
+" persistent undo history
 set noswapfile
 set nobackup
 set undodir=$HOME/.local/share/vim/undodir
 set undofile
 
-set viminfofile=$HOME/.vim/viminfo
+set viminfofile=$HOME/.local/share/vim/viminfo
 
+" don't highlight searches
 set nohlsearch
+" show search matches as you type
 set incsearch
+" case insensitive search unless uppercase is used
+set ignorecase
 set smartcase
-
-set scrolloff=8
-set conceallevel=2
 
 set nocompatible
 syntax on
 filetype plugin indent on
 
-
-" ---------------------- File Specific --------------------
-
-" Set spell checker
-autocmd FileType tex setlocal spell
-
-" Lisp filetype
-autocmd BufEnter *.l setlocal ft=lisp
+" Will be changed if plugins are available
+colorscheme retrobox
 
 
 "------------------------------------------------------------
@@ -51,9 +57,6 @@ let mapleader=" "
 " I save as a fidget, so only save on upate
 cnoreabbrev w update
 cnoreabbrev W update
-cnoreabbrev Mak mak
-cnoreabbrev Mka mak
-cnoreabbrev mka mak
 
 nnoremap <leader>pv :Ex<CR>
 
@@ -61,35 +64,34 @@ nnoremap <leader>pv :Ex<CR>
 inoremap <C-c> <Esc>
 inoremap jk <Esc>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 "" Center cursor after jumping half a page
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
-"" Delete into void register before pasting
-vnoremap <leader>p "_dP
-
 "" Copy to system clipboard
 vnoremap <leader>y "+y
 
-nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
-nnoremap <silent> <Leader>c :call clearmatches()<CR>
 
-"" Quickfix list
-nnoremap <leader>[ :copen<CR>
-nnoremap <leader>] :cclose<CR>
-nnoremap g[ :cprev<CR>
-nnoremap g] :cnext<CR>
+
+"------------------------------------------------------------
+"                           COMMANDS
+"------------------------------------------------------------
+
+" Run a terminal command in a vertical split
+command -nargs=+ Run :vertical botright term <args>
 
 
 
 "------------------------------------------------------------
 "                           PLUGINS
 "------------------------------------------------------------
+
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 
 call plug#begin()
 
@@ -99,35 +101,28 @@ Plug 'honza/vim-snippets'
 
 Plug 'Exafunction/codeium.vim'
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
 
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'vim-airline/vim-airline'
-
 Plug 'vimwiki/vimwiki'
 Plug 'lervag/vimtex'
 
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'vim-airline/vim-airline'
+
 call plug#end()
-
-
-"------------------------------------------------------------
-"                     PLUGIN CONFIGURATION
-"------------------------------------------------------------
 
 "" ------------------------ LSP -----------------------------
 
 set completeopt-=preview
 
-" confirm with <C-k>
+" confirm auto-completions with <C-k>
 inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-n>"
 
 nnoremap K  <cmd>LspHover<CR>
 nnoremap gA <cmd>LspCodeAction<CR>
 nnoremap gd <cmd>LspGotoDefinition<CR>
-
 nnoremap gR <cmd>LspRename<CR>
 nnoremap ]d <cmd>LspDiag next<CR>
 nnoremap [d <cmd>LspDiag prev<CR>
@@ -164,29 +159,57 @@ let lspOpts = #{
             \   completionKinds: {},
             \   filterCompletionDuplicates: v:true,
             \ }
+
 autocmd User LspSetup call LspOptionsSet(lspOpts)
 
 
-let lspServers = [#{
+let clangServer = [#{
             \     name: 'clang',
             \     filetype: ['c', 'cpp'],
             \     path: '/usr/bin/clangd',
             \     args: ['--background-index']
             \ }]
+autocmd User LspSetup call LspAddServer(clangServer)
 
-
-autocmd User LspSetup call LspAddServer(lspServers)
+let rustServer = [#{
+            \     name: 'rustlang',
+            \     filetype: ['rust', 'rs'],
+            \     path: '/usr/bin/rust-analyzer',
+            \     args: []
+            \ }]
+autocmd User LspSetup call LspAddServer(rustServer)
 
 
 "" ------------------------ Tools ---------------------------
+
 " Fzf
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>pg :GFiles<CR>
 nnoremap <leader>pp :Lines<CR>
-nnoremap <leader>ps :RG<CR>
 
 " Undo Tree
 nnoremap <leader>u :UndotreeToggle<CR>
+
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/dox/wiki/', 'path_html': '~/dox/wiki/html'}]
+
+" VimTex
+let g:vimtex_compiler_latexmk = { 'out_dir': 'build', 'aux_dir': 'aux', }
+autocmd FileType tex setlocal spell
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Codeium
+let g:codeium_enabled = v:false
+let g:codeium_no_map_tab = 1
+imap <script><silent><nowait><expr> <C-q> codeium#Accept()
+imap <C-[>  <cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-]>  <cmd>call codeium#CycleCompletions(-1)<CR>
+imap <C-;>  <cmd>call codeium#Clear()<CR>
+
 
 "" ---------------------- Appearance ------------------------
 
@@ -195,48 +218,7 @@ set background=dark
 set termguicolors
 colorscheme catppuccin_mocha
 
+" sometimes setting these will fix colors
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-"" ---------------------- Snippets --------------------------
-
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-
-"" ---------------------- Codeium --------------------------
-
-let g:codeium_no_map_tab = 1
-
-imap <script><silent><nowait><expr> <C-s> codeium#Accept()
-imap <C-[>  <cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-]>  <cmd>call codeium#CycleCompletions(-1)<CR>
-" imap <C-x>  <cmd>call codeium#Clear()<CR>
-
-
-"" ------------------------ Wiki ----------------------------
-
-let g:vimwiki_list = [{'path': '~/dox/wiki/', 
-            \ 'path_html': '~/dox/wiki/html'}]
-
-
-"" ------------------------ LaTex ----------------------------
-let g:vimtex_compiler_latexmk = {
-            \ 'executable': 'latexmk',
-            \ 'options': [
-            \   '-synctex=1',
-            \   '-interaction=nonstopmode',
-            \   '-file-line-error',
-            \ ],
-            \ 'out_dir': 'build',
-            \ }
-
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_view_general_options = '-reuse-instance -forward-search -inverse-search @tex @line @pdf'
-
-
 
