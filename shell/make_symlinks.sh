@@ -33,5 +33,6 @@ sudo make clean install
 cd ../st
 sudo make clean install
 
+
 cd ~/.dotfiles/shell/
 rm -rf /tmp/suckless

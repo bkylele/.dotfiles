@@ -18,18 +18,17 @@ download_package()  {
 # Productivity Tools
 # -------------------
 
-echo "Trying to install command-line utils..." >> $log_file
+read -n 1 -p "Install comand-line utils? [y/n]" prompt
+if [[ $prompt =~ [yY] ]] then
+    echo "Trying to install utils..." >> $log_file
 
-download_package tmux
-download_package ranger
-download_package ripgrep
-download_package unzip
-download_package wget
-download_package curl
-download_package sl
+    download_package tmux
+    download_package ranger
+    download_package bash-completion
+    download_package sl
 
 echo >> $log_file
-
+fi
 
 # --------------
 # Xorg and GUI
