@@ -25,6 +25,7 @@ if [[ $prompt =~ [yY] ]] then
     download_package tmux
     download_package ranger
     download_package bash-completion
+    download_package curl
     download_package sl
 
 echo >> $log_file
@@ -54,12 +55,13 @@ if [[ $prompt =~ [yY] ]] then
     sudo pacman -Sq --noconfirm imagemagick
 
 
-    echo "Trying fonts..." >> $log_file
+    echo "Trying to install fonts..." >> $log_file
     sudo pacman -Sq --noconfirm ttf-jetbrains-mono
     sudo pacman -Sq --noconfirm ttf-jetbrains-mono-nerd
     sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols
     sudo pacman -Sq --noconfirm ttf-nerd-fonts-symbols-mono
     sudo pacman -Sq --noconfirm noto-fonts-cjk
+    sudo pacman -Sq --noconfirm noto-fonts-emojis
 
     echo >> $log_file
 fi
