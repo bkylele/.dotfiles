@@ -1,3 +1,4 @@
+
 "------------------------------------------------------------
 "                           OPTIONS
 "------------------------------------------------------------
@@ -5,12 +6,19 @@
 " set block cursor
 set guicursor=""
 
+" default vertical splits open to the right
+set splitright
+set splitbelow
+
 " set relative and absolute line numbers
 set nu rnu
 
 " cursor is minimum of 8 lines from the edges of the screen
 set scrolloff=8
-set conceallevel=2
+set sidescrolloff=8
+
+" don't wrap lines
+set nowrap
 
 " set tab width
 set tabstop=4
@@ -21,9 +29,6 @@ set expandtab
 " auto indent new lines
 set smartindent
 
-" don't wrap lines
-set nowrap
-
 " persistent undo history
 set noswapfile
 set nobackup
@@ -32,10 +37,10 @@ set undofile
 
 set viminfofile=$HOME/.local/share/vim/viminfo
 
-" don't highlight searches
-set nohlsearch
 " show search matches as you type
 set incsearch
+set nohlsearch
+
 " case insensitive search unless uppercase is used
 set ignorecase
 set smartcase
@@ -44,8 +49,16 @@ set nocompatible
 syntax on
 filetype plugin indent on
 
-" Will be changed if plugins are available
-colorscheme retrobox
+
+" Misc appearance
+set background=dark
+set termguicolors
+set conceallevel=2
+colorscheme molokai
+
+" sometimes setting these will fix colors
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 
 "------------------------------------------------------------
@@ -54,9 +67,14 @@ colorscheme retrobox
 
 let mapleader=" "
 
-" I save as a fidget, so only save on upate
-cnoreabbrev w update
-cnoreabbrev W update
+" oopsies
+cnoreabbrev W w
+
+" help window in vertical split
+cnoreabbrev h vert h
+
+" Running terminal tasks asynchronously
+cnoreabbrev term vert bo term ++shell
 
 nnoremap <leader>pv :Ex<CR>
 
@@ -64,28 +82,27 @@ nnoremap <leader>pv :Ex<CR>
 inoremap <C-c> <Esc>
 inoremap jk <Esc>
 
-"" Center cursor after jumping half a page
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
-
 "" Copy to system clipboard
 vnoremap <leader>y "+y
 
+" Center cursor after jumping half a page
+" which would work if they didn't CHANGE IT 
+" nnoremap <C-d> <C-d>zz
+" nnoremap <C-u> <C-u>zz
 
 
 "------------------------------------------------------------
 "                           COMMANDS
 "------------------------------------------------------------
 
-" Run a terminal command in a vertical split
-command -nargs=+ Run :vertical botright term <args>
-
+" lawl
 
 
 "------------------------------------------------------------
 "                           PLUGINS
 "------------------------------------------------------------
 
+" Auto download plugins on fresh install
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -95,12 +112,13 @@ endif
 
 call plug#begin()
 
-Plug 'yegappan/lsp'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'Exafunction/codeium.vim'
-
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
@@ -108,76 +126,61 @@ Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'lervag/vimtex'
 
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'vim-airline/vim-airline'
-
 call plug#end()
+
+packadd termdebug
+let g:termdebug_wide=1
 
 "" ------------------------ LSP -----------------------------
 
-set completeopt-=preview
 
 " confirm auto-completions with <C-k>
 inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-n>"
 
-nnoremap K  <cmd>LspHover<CR>
-nnoremap gA <cmd>LspCodeAction<CR>
-nnoremap gd <cmd>LspGotoDefinition<CR>
-nnoremap gR <cmd>LspRename<CR>
-nnoremap ]d <cmd>LspDiag next<CR>
-nnoremap [d <cmd>LspDiag prev<CR>
-nnoremap gD <cmd>LspDiag show<CR>
-nnoremap gs <cmd>LspDocumentSymbol<CR>
-nnoremap gS <cmd>LspSymbolSearch<CR>
-nnoremap gr <cmd>LspShowReferences<CR>
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gR <plug>(lsp-rename)
+    nmap <buffer> <leader>a <plug>(lsp-code-action)
+
+    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+    nmap <buffer> <leader>d <plug>(lsp-document-diagnostics)
+
+    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-b> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+endfunction
 
 
-let lspOpts = #{
-            \   autoComplete: v:false,
-            \   autoHighlight: v:true,
-            \   autoHighlightDiags: v:true,
-            \   completionMatcher: 'fuzzy',
-            \   completionMatcherValue: 1,
-            \   diagSignErrorText: 'E>',
-            \   diagSignHintText: 'H>',
-            \   diagSignInfoText: 'I>',
-            \   diagSignWarningText: 'W>',
-            \   echoSignature: v:false,
-            \   hideDisabledCodeActions: v:false,
-            \   highlightDiagInline: v:true,
-            \   completionTextEdit: v:true,
-            \   diagVirtualTextAlign: 'after',
-            \   diagVirtualTextWrap: 'default',
-            \   outlineOnRight: v:false,
-            \   outlineWinSize: 20,
-            \   showSignature: v:true,
-            \   ultisnipsSupport: v:true,
-            \   usePopupInCodeAction: v:false,
-            \   useQuickfixForLocations: v:true,
-            \   bufferCompletionTimeout: 100,
-            \   customCompletionKinds: v:false,
-            \   completionKinds: {},
-            \   filterCompletionDuplicates: v:true,
-            \ }
-
-autocmd User LspSetup call LspOptionsSet(lspOpts)
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 
-let clangServer = [#{
-            \     name: 'clang',
-            \     filetype: ['c', 'cpp'],
-            \     path: '/usr/bin/clangd',
-            \     args: ['--background-index']
-            \ }]
-autocmd User LspSetup call LspAddServer(clangServer)
+" grrr why wont u work clangd
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd']},
+        \ 'allowlist': ['cpp', 'c'],
+        \ })
+endif
 
-let rustServer = [#{
-            \     name: 'rustlang',
-            \     filetype: ['rust', 'rs'],
-            \     path: '/usr/bin/rust-analyzer',
-            \     args: []
-            \ }]
-autocmd User LspSetup call LspAddServer(rustServer)
+
+let g:lsp_diagnostics_virtual_text_align = "after"
+
 
 
 "" ------------------------ Tools ---------------------------
@@ -187,38 +190,36 @@ nnoremap <leader>pf :Files<CR>
 nnoremap <leader>pg :GFiles<CR>
 nnoremap <leader>pp :Lines<CR>
 
+
 " Undo Tree
 nnoremap <leader>u :UndotreeToggle<CR>
 
+
 " Vimwiki
 let g:vimwiki_list = [{'path': '~/dox/wiki/', 'path_html': '~/dox/wiki/html'}]
+let g:vimwiki_key_mappings = { 'table_mappings': 0, }
+
 
 " VimTex
-let g:vimtex_compiler_latexmk = { 'out_dir': 'build', 'aux_dir': 'aux', }
+let g:vimtex_compiler_latexmk = {
+            \ 'executable': 'latexmk',
+            \ 'options': [
+            \   '-synctex=1',
+            \   '-interaction=nonstopmode',
+            \   '-file-line-error',
+            \ ],
+            \ 'out_dir': 'build',
+            \ 'aux_dir': 'aux',
+            \ }
+
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_general_options = '-reuse-instance -forward-search -inverse-search @tex @line @pdf'
 autocmd FileType tex setlocal spell
+
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" Codeium
-let g:codeium_enabled = v:false
-let g:codeium_no_map_tab = 1
-imap <script><silent><nowait><expr> <C-q> codeium#Accept()
-imap <C-[>  <cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-]>  <cmd>call codeium#CycleCompletions(-1)<CR>
-imap <C-;>  <cmd>call codeium#Clear()<CR>
-
-
-"" ---------------------- Appearance ------------------------
-
-" Colorscheme
-set background=dark
-set termguicolors
-colorscheme catppuccin_mocha
-
-" sometimes setting these will fix colors
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 

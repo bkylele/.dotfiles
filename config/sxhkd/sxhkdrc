@@ -1,7 +1,7 @@
 
 # Open browser
 super + q
-    firefox
+    env MOZ_USE_XINPUT2=1 firefox
 
 # Open xournal
 super + w
