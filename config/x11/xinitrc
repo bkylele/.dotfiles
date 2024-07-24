@@ -1,9 +1,11 @@
 xrdb $XDG_CONFIG_HOME/x11/xresources
-xwallpaper --zoom /home/bkyle/.config/wall2.jpeg
+xwallpaper --zoom /home/bkyle/.config/wall.png
 xset r rate 250
 xrandr --output eDP-1 --mode 2880x1920 --rate 120.00
 
-xcompmgr -c &
+xinput set-prop "Microsoft Surface 045E:09AF Touchpad" "libinput Tapping Enabled" 1
+
+picom --experimental-backend -b
 statusbar &
 sxhkd &
 

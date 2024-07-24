@@ -6,6 +6,10 @@
 " set block cursor
 set guicursor=""
 
+" set special chars for trailing/leading spaces
+set list
+set listchars=lead:.,trail:-,tab:>-
+
 " default vertical splits open to the right
 set splitright
 set splitbelow
@@ -32,10 +36,10 @@ set smartindent
 " persistent undo history
 set noswapfile
 set nobackup
-set undodir=$HOME/.local/share/vim/undodir
+set undodir=$HOME/.cache/vim/undo/
 set undofile
 
-set viminfofile=$HOME/.local/share/vim/viminfo
+set viminfofile=$HOME/.cache/vim/viminfo
 
 " show search matches as you type
 set incsearch
@@ -45,20 +49,21 @@ set nohlsearch
 set ignorecase
 set smartcase
 
-set nocompatible
-syntax on
-filetype plugin indent on
-
 
 " Misc appearance
 set background=dark
 set termguicolors
 set conceallevel=2
+
 colorscheme molokai
 
 " sometimes setting these will fix colors
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+set nocompatible
+filetype plugin indent on
+syntax on
 
 
 "------------------------------------------------------------
@@ -86,16 +91,13 @@ inoremap jk <Esc>
 vnoremap <leader>y "+y
 
 " Center cursor after jumping half a page
-" which would work if they didn't CHANGE IT 
-" nnoremap <C-d> <C-d>zz
-" nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 
 
 "------------------------------------------------------------
 "                           COMMANDS
 "------------------------------------------------------------
-
-" lawl
 
 
 "------------------------------------------------------------
@@ -103,18 +105,16 @@ vnoremap <leader>y "+y
 "------------------------------------------------------------
 
 " Auto download plugins on fresh install
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.config/vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin()
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -128,14 +128,8 @@ Plug 'lervag/vimtex'
 
 call plug#end()
 
-packadd termdebug
-let g:termdebug_wide=1
 
 "" ------------------------ LSP -----------------------------
-
-
-" confirm auto-completions with <C-k>
-inoremap <expr> <C-k> pumvisible() ? "\<C-y>" : "\<C-n>"
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -162,10 +156,9 @@ function! s:on_lsp_buffer_enabled() abort
 endfunction
 
 
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+au!
+" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
 
@@ -178,17 +171,33 @@ if executable('clangd')
         \ })
 endif
 
-
 let g:lsp_diagnostics_virtual_text_align = "after"
+let g:lsp_diagnostics_echo_delay = 0
+let g:lsp_diagnostics_float_delay = 0
+let g:lsp_diagnostics_virtual_text_delay = 0
+let g:lsp_diagnostics_highlights_delay = 0
+let g:lsp_diagnostics_signs_delay = 0
 
+let g:lsp_document_code_action_signs_delay = 0
+let g:lsp_document_highlight_delay = 0
+
+let g:lsp_semantic_enabled = 0
+
+" colors get turned off for some reason
+syntax on
 
 
 "" ------------------------ Tools ---------------------------
+
+" Termdebug
+let g:termdebug_wide=1
+
 
 " Fzf
 nnoremap <leader>pf :Files<CR>
 nnoremap <leader>pg :GFiles<CR>
 nnoremap <leader>pp :Lines<CR>
+nnoremap <leader>ps :RG<CR>
 
 
 " Undo Tree
@@ -221,5 +230,4 @@ autocmd FileType tex setlocal spell
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
 

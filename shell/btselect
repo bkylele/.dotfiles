@@ -1,0 +1,17 @@
+#! /bin/sh
+
+options="Connect\nDisconnect\nCancel"
+option_choice=$(echo -e "$options" | dmenu -p "Select Action" -g 1 | awk '{print tolower($0)}')
+
+if [ "$option_choice" = "cancel" ]; then
+    exit 0
+fi
+
+devices=$(bluetoothctl devices | cut -d ' ' -f2-)
+
+device_choice=$(echo -n "$devices" | dmenu -p "Select Device" -g 1)
+device_choice=$(echo $device_choice | cut -d ' ' -f 1)
+
+# echo "bluetoothctl $option_choice $device_choice"
+bluetoothctl $option_choice $device_choice
+

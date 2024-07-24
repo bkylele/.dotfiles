@@ -1,0 +1,27 @@
+#! /bin/sh
+
+options="Laptop Only\nMonitor Only\nExtend Display\nDuplicate Display"
+
+input=$(echo -e $options | dmenu -p "Select Output" -g 1)
+
+case $input in
+
+    "Laptop Only")
+        xrandr --output eDP-1 --auto --output DP-2 --off
+        ;;
+
+    "Monitor Only")
+        xrandr --output eDP-1 --off --output DP-2 --auto
+        ;;
+
+    "Extend Display")
+        xrandr --output DP-2 --auto --right-of eDP-1
+        xrandr --output eDP-1 --auto --left-of DP-2
+        ;;
+
+    "Duplicate Display")
+        xrandr --output DP-2 --auto --same-as eDP-1 --mode 1920x1080
+        xrandr --output eDP-1 --mode 1920x1080
+        ;;
+
+esac
