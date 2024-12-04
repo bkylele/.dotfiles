@@ -1,7 +1,6 @@
 
 !! Set display dpi
-!Xft.dpi:    196
-Xft.dpi:    100
+Xft.dpi:    196
 
 !! Dracula Xresources palette
 *.foreground: #F8F8F2

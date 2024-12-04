@@ -1,0 +1,110 @@
+ls
+ls -la
+which sh
+which eshell
+which emacs
+ls
+ls -la
+la
+la
+cowsay
+ls
+cd ..
+ls
+clear
+clear
+clear 1
+git fetch
+git pull
+git status
+git diff ../pla
+git diff ../platformio.ini
+cd ..
+git diff platformio.ini 
+git restore platformio.ini 
+git status
+git commit -am "Part 1, revert here if we need to flash SSID/Password again"
+git status
+git commit -am "Part 2 beginning template"
+git status
+git push
+ls
+cd ..
+pio run
+make upload
+git checkout lab-4 
+git status
+clear 1
+git status
+git commit -am "sending temp/hum data as json content"
+git push
+git status
+git commit -am "updated server variables"; git push
+ls
+git status
+git restore .
+git status
+git checkout lab-4 
+git status
+git checkout lab-4 
+pio device monitor
+pio device list
+lsblk
+clear 1
+pio device list
+sudo chmod a+rw /dev/ttyACM0
+make upload
+pio device monitor
+make upload; pio device monitor
+make upload; pio device minotr
+pio device monitor
+make upload; pio device monitor
+git restore .
+git checkout lab-4
+make upload; pio device monitor
+make upload; pio device monitor
+pio run
+pio run
+pio run
+pio run
+pio run
+pio run
+pio run
+make upload; pio device monitor
+sudo chmod a+rw /dev/ttyACM0
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+pio run
+pio run
+pio run
+pio run
+pio run
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+pio run
+pio run
+pio run
+make upload; pio device monitor
+pio run
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+make upload; pio device monitor
+git status

@@ -2,3 +2,9 @@
 
 # reset the keyboard repeat delay whenever it acts up
 xset r rate 250
+
+# and some other things that reset for whatever reason
+xinput set-prop "Microsoft Surface 045E:09AF Touchpad" "libinput Tapping Enabled" 1
+
+xwallpaper --zoom /home/bkyle/.config/wall2.jpeg
+

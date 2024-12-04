@@ -1,0 +1,91 @@
+# -*- mode: org -*-
+* v4.1.2    2024-11-02
+
+- Add various minor process logging improvements:
+  5b30c05d3a magit--git-insert: Collapse process section if appropriate
+  b11524120e magit--git-insert: Optionally always log to process buffer
+  cd6cf89d6a Use different face for debug-only process sections
+  bba06845de magit-process-insert-section: Improve file-path comparision
+  f2a6133443 magit-run-git-async: No longer clutter ~*Messages*~ buffer
+
+Bug fixes:
+
+- If the left margin was in use before ~magit-blame-mode~ started using
+  that margin, then the old width was not restored when the mode was
+  disabled.  #5236
+
+- Prior to Tramp being loaded, setting ~magit-tramp-pipe-stty-settings~
+  to ~nil~ resulted in an error, due to ~tramp-pipe-stty-settings~ not
+  being bound yet.  #5240
+
+- ~magit-copy-section-value~ no longer did anything for most section
+  types.  #5244.
+
+- Global git arguments often got added twice to the list of arguments
+  ultimately passed to git.  914285a5e8
+
+- Inserting the headers of status buffers involves temporary changes
+  to ~magit-insert-section-hook~.  These changes were not restricted to
+  the current buffer, causing errors when ~magit-git-debug~ is enabled
+  and we thus insert sections in the process buffer, while the status
+  buffer is being refreshed.  11e13640c4
+
+- Some ~git~ errors were not logged despite ~magit-git-debug~ being
+  enabled.  874fb0fede
+
+- ~magit-browse-thing~ and ~magit-visit-thing~ tried to turn anything
+  at point into an URL.  Now the bail if there is no URL at point.
+  7c842b8ac0
+
+* v4.1.1    2024-10-01
+
+- Avoid unnecessary work when ~auto-revert-remote-files~ is ~nil~.  #5222
+
+- Improved default choice offered by ~magit-branch-reset~ and
+  ~magit-reset-*~.  #5230
+
+Bug fixes:
+
+- Added a workaround for a regression in Git v2.46.0.  #5212
+
+- Section-specific bindings were removed when a section was expanded
+  whose body is not inserted until the expansion takes place.
+  9395de2c94
+
+- Addressed an incompatibility with Eglot.  #5226
+
+- Adapted to a change in ~define-globalized-minor-mode~ in Emacs 30,
+  which caused ~diff-hl-mode~ to be enabled in blob buffers.  #5229
+
+- When adding the commit at point to the completion defaults, it was
+  assumed that ~minibuffer-default-add-function~ cannot be nil.
+  6d0075f523
+
+- ~magit-blame--format-string-1~ didn't handle a list of faces
+  correctly.  5395798301
+
+- Addressed an incompatibility with Indent-Bars.  #5233
+
+* v4.1.0    2024-09-01
+
+- The library ~git-commit.el~ is no longer distributed as a separate
+  package, ~git-commit~, but as part of the ~magit~ package.
+
+- Improved ~magit-tag-release~'s consistency and handling of arguments.
+  #5102
+
+- Updated tooling and other housekeeping.
+
+Bug fixes:
+
+- Only use an explicit range in ~magit-insert-recent-commits~, when also
+  using ~--graph~.  With ~--graph~ it increases performance noticeably,
+  but without it decreases performance somewhat.  #5075
+
+- ~magit-completing-read-multiple~ now shows the default choice in the
+  prompt, if a completion framework is used, for which that is useful.
+  #5205.
+
+* Older releases
+
+See ~docs/RelNotes/~.

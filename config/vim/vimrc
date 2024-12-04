@@ -43,12 +43,11 @@ set viminfofile=$HOME/.cache/vim/viminfo
 
 " show search matches as you type
 set incsearch
-set nohlsearch
+set hlsearch
 
 " case insensitive search unless uppercase is used
 set ignorecase
 set smartcase
-
 
 " Misc appearance
 set background=dark
@@ -83,6 +82,9 @@ cnoreabbrev term vert bo term ++shell
 
 nnoremap <leader>pv :Ex<CR>
 
+" Remove highlight
+nnoremap <leader>v :noh<CR>
+
 " Escape aliases
 inoremap <C-c> <Esc>
 inoremap jk <Esc>
@@ -93,6 +95,10 @@ vnoremap <leader>y "+y
 " Center cursor after jumping half a page
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
+
+" Quickfix
+nnoremap g] :cnext<CR>
+nnoremap g[ :cprev<CR>
 
 
 "------------------------------------------------------------
@@ -126,8 +132,9 @@ Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'lervag/vimtex'
 
-call plug#end()
+" Plug 'sedm0784/vim-rainbow-trails'
 
+call plug#end()
 
 "" ------------------------ LSP -----------------------------
 
@@ -152,7 +159,7 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <expr><c-b> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+    " autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 endfunction
 
 
@@ -161,8 +168,6 @@ au!
 autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-
-" grrr why wont u work clangd
 if executable('clangd')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'clangd',

@@ -1,4 +1,8 @@
 
+# Power
+super + ctrl + p
+    power
+
 # Open browser
 super + q
     env MOZ_USE_XINPUT2=1 firefox
