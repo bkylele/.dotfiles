@@ -72,7 +72,7 @@ syntax on
 let mapleader=" "
 
 " oopsies
-cnoreabbrev W w
+" cnoreabbrev W w
 
 " help window in vertical split
 cnoreabbrev h vert h
@@ -129,9 +129,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
 
-Plug 'vimwiki/vimwiki'
 Plug 'lervag/vimtex'
 
+" Plug 'vimwiki/vimwiki'
 " Plug 'sedm0784/vim-rainbow-trails'
 
 call plug#end()
@@ -210,8 +210,8 @@ nnoremap <leader>u :UndotreeToggle<CR>
 
 
 " Vimwiki
-let g:vimwiki_list = [{'path': '~/dox/wiki/', 'path_html': '~/dox/wiki/html'}]
-let g:vimwiki_key_mappings = { 'table_mappings': 0, }
+" let g:vimwiki_list = [{'path': '~/dox/wiki/', 'path_html': '~/dox/wiki/html'}]
+" let g:vimwiki_key_mappings = { 'table_mappings': 0, }
 
 
 " VimTex
