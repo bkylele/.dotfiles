@@ -13,13 +13,13 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(setq default-frame-alist '((undecorated . t)))
 
 (column-number-mode)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 't)
 
 (set-face-attribute 'default nil :font "Jetbrains Mono NL-10")
-
 
 ;;; ==================================
 ;;;             Packages
@@ -40,10 +40,8 @@
 ;;;
 ;;; Theme and appearance
 ;;;
-(use-package catppuccin-theme
-  :ensure t
-  :config
-  (load-theme 'catppuccin :no-confirm))
+
+;; (load-theme 'gruvbox-dark-medium t)
 
 (use-package doom-modeline
   :ensure t
@@ -99,11 +97,12 @@
   :ensure t)
 
 (use-package eglot
-  :defer t
   :hook
-  ((eglot-managed-mode . company-mode)
-   (eglot-managed-mode . fly-make-mode)
-   (eglot-managed-mode . eldoc-box-hover-mode))
+  (
+   ;; (eglot-managed-mode . fly-make-mode)
+   (eglot-managed-mode . company-mode)
+   (eglot-managed-mode . eldoc-box-hover-mode)
+   )
   :config
   (add-to-list 'eglot-server-programs
 	       '(java-mode . ("jdtls"))
@@ -141,6 +140,14 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.2))
 
+(use-package org
+  :config
+  (setq org-agenda-files '("~/dox/org/")))
+
+(use-package org-bullets
+  :ensure t)
+
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;;;
 ;;; Evil mode and keybinds
@@ -160,7 +167,8 @@
   (evil-set-leader nil (kbd "SPC"))
   (evil-define-key 'normal 'global (kbd "<leader>SPC") 'helm-M-x)
   
-  (evil-define-key 'normal 'global (kbd "<leader>fed") (lambda () (interactive) (find-file user-init-file)))
+  (evil-define-key 'normal 'global (kbd "<leader>fed") (lambda () (interactive)
+							 (find-file user-init-file)))
 
   (evil-define-key 'normal 'global (kbd "<leader>ff") 'helm-find-files)
   (evil-define-key 'normal 'global (kbd "<leader>pf") 'helm-projectile-find-file)
@@ -168,6 +176,12 @@
   (evil-define-key 'normal 'global (kbd "<leader>pp") 'helm-projectile-switch-project)
   
   (evil-define-key 'normal 'global (kbd "<leader>bb") 'helm-buffers-list)
+  (evil-define-key 'normal 'global (kbd "<leader>bk") 'kill-current-buffer)
+
+  (evil-define-key 'normal 'global (kbd "<leader>'") (lambda () (interactive)
+						       (split-window-below 30)
+						       (other-window 1)
+						       (vterm)))
   )
 
 (use-package evil-collection
@@ -201,7 +215,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c46651ab216eb31e699be1bd5e6df8229b08005b534194c1ea92519b09661d71"
+   '("5a0ddbd75929d24f5ef34944d78789c6c3421aa943c15218bac791c199fc897d"
+     "c46651ab216eb31e699be1bd5e6df8229b08005b534194c1ea92519b09661d71"
      default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages nil))
