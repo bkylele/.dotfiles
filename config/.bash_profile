@@ -4,6 +4,4 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-if ! timeout 1s xset q &>/dev/null; then
-    startx
-fi
+[ "$(tty)" = "/dev/tty1" ] && exec sway

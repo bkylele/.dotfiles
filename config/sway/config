@@ -9,7 +9,7 @@ set $up k
 set $right l
 
 set $term alacritty
-set $menu wmenu-run
+set $menu tofi-run | xargs swaymsg exec --
 set $browser firefox
 
 ### Output configuration
@@ -18,6 +18,9 @@ output * bg ~/.config/wall4.jpeg fill
 output eDP-1 {
     mode 2880x1920@120.000Hz
 }
+
+bindswitch --reload --locked lid:on output eDP-1 disable
+bindswitch --reload --locked lid:off output eDP-1 enable
 
 ### Input configuration
 input type:touchpad {
@@ -29,8 +32,10 @@ input type:keyboard {
     repeat_delay 300
 }
 
-### Idle configuration
+### Lock configuration
+exec swayidle -w before-sleep 'swaylock -f -c 000000'
 # exec swayidle -w \
+#          timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on" \
 #          timeout 300 'swaylock -f -c 000000' \
 #          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
 #          before-sleep 'swaylock -f -c 000000'
@@ -142,7 +147,7 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 # Special key to take a screenshot with grim
-bindsym Print exec grim
+bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
 #
 # Status Bar:
