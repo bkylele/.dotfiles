@@ -14,7 +14,7 @@ sudo pacman -S bash-completion git vim yazi zoxide fastfetch less nix \
     noto-fonts-emoji noto-fonts-extra ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono \
     pulseaudio pulsemixer bluez bluetui grim wl-clipboard brightnessctl \
-    wayland sway waybar swaybg swaylock \
+    wayland sway waybar swaybg swaylock dunst rofi \
     firefox discord
 
 user_home=/home/$SUDO_USER
