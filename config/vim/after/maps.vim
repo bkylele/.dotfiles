@@ -1,8 +1,22 @@
 let mapleader=" "
 
-nnoremap <leader>pv :Ex<CR>
-nnoremap <leader>pV <C-w>v<C-w>L:Ex<CR>
+nnoremap <leader>pv <cmd>Ex<cr>
+nnoremap <leader>pV <cmd>Vexplore<cr>
 nnoremap <leader>pf :find *
+nnoremap <leader>ps :grep 
+
+function! ToggleQuickFix()
+    if exists("g:qwindowopen")
+        cclose
+        unlet g:qwindowopen
+    else
+        copen
+        let g:qwindowopen = 1
+    endif
+endfunction
+nnoremap <leader>qq <cmd>call ToggleQuickFix()<cr>
+nnoremap <leader>qn <cmd>cnext<cr>
+nnoremap <leader>qp <cmd>cprev<cr>
 
 " Running terminal tasks asynchronously
 cnoreabbrev term vert bo term ++shell

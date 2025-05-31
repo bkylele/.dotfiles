@@ -1,8 +1,9 @@
 " set block cursor
 set guicursor=""
 
-" set relative and absolute line numbers
-set nu rnu
+" set hybrid relative and absolute line numbers
+set number
+set relativenumber
 
 " cursor is minimum of 8 lines from the edges of the screen
 set scrolloff=8
@@ -22,40 +23,44 @@ set noswapfile
 set nobackup
 set undodir=$HOME/.cache/vim/undo/
 set undofile
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p", 0700)
+endif
 
 set viminfofile=$HOME/.cache/vim/viminfo
 
+" better netrw
 let g:netrw_dirhistmax = 0
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
-" show search matches as you type
+" better search
 set incsearch
 set nohlsearch
-
-" case insensitive search unless uppercase is used
 set ignorecase
 set smartcase
-
-let loaded_matchparen = 0
 
 " For use with :find
 set path+=**
 
+" Enable recursive grep search
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --smart-case
+else   
+    set grepprg=grep\ -n\ -r\ $*\ /dev/null
+endif
+
+
 " Misc appearance
-
-" sometimes setting these will fix colors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
 set background=dark
 set termguicolors
 set conceallevel=2
 
-" colorscheme pink-moon
-" colorscheme molokai
+" sometimes setting these will fix colors
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 colorscheme catppuccin_macchiato
-" colorscheme gruvbox
 
 set nocompatible
 filetype plugin indent on
