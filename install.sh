@@ -9,7 +9,8 @@ fi
 sudo pacman -Syuq --noconfirm
 
 # Essentials
-sudo pacman -S bash-completion git vim yazi zoxide fastfetch less nix \
+sudo pacman -S bash-completion git diff-so-fancy vim yazi zoxide fastfetch \
+    rg fd nix \
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk \
     noto-fonts-emoji noto-fonts-extra ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono \

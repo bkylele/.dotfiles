@@ -18,8 +18,9 @@ Plug 'lervag/vimtex'
 
 call plug#end()
 
-runtime plugin/lsp.vim
-runtime plugin/undotree.vim
-runtime plugin/vimtex.vim
-runtime plugin/ultisnips.vim
+runtime plugin/*
+" runtime plugin/lsp.vim
+" runtime plugin/undotree.vim
+" runtime plugin/vimtex.vim
+" runtime plugin/ultisnips.vim
 
