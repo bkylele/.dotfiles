@@ -1,0 +1,31 @@
+[user]
+	email = bkylele@gmail.com
+	name = Brian Le
+
+[status]
+    branch = true
+    showStash = true
+
+[diff]
+    context = 3
+    renames = copies
+    interHunkContext = 10
+
+[pager]
+    diff = diff-so-fancy
+
+[diff-so-fancy]
+    markEmptyLines = false
+
+[interactive]
+    diffFilter = diff-so-fancy --patch
+    singlekey = true
+
+[pull]
+    rebase = true
+
+[log]
+    abbrevCommit = true
+
+[url "git@github.com:"]
+    insteadOf = "gh:"

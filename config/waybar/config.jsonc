@@ -4,7 +4,6 @@
     "spacing": 4, // Gaps between modules (4px)
 
     "modules-left": [
-        "sway/window"
     ],
 
     "modules-center": [
@@ -20,9 +19,9 @@
         "temperature",
         "backlight",
         "battery",
+        // "custom/battery-notif",
         "clock",
         "custom/end",
-        // "custom/power"
         "group/group-power"
     ],
 
@@ -79,7 +78,7 @@
     },
 
     "temperature": {
-        "critical-threshold": 80,
+        "critical-threshold": 70,
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", ""]
     },
@@ -92,7 +91,7 @@
     "battery": {
         "states": {
             "warning": 30,
-            "critical": 15
+            "critical": 20
         },
         "format": "{capacity}% {icon}",
         "format-full": "{capacity}% {icon}",
@@ -101,6 +100,11 @@
         "format-alt": "{time} {icon}",
         "format-icons": ["", "", "", "", ""]
     },
+
+    // "custom/battery-notif": {
+    //     "exec": "~/.config/waybar/battery-notif",
+    //     // "interval": "once"
+    // },
 
     "network": {
         "format-wifi": "",

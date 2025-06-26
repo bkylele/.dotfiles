@@ -8,12 +8,12 @@ endif
 
 call plug#begin()
 
-Plug 'prabirshrestha/vim-lsp'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'lervag/vimtex'
 
 call plug#end()

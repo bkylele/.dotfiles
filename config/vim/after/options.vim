@@ -18,6 +18,10 @@ set expandtab
 " auto indent new lines
 set smartindent
 
+" move to new split when creating one
+set splitbelow
+set splitright
+
 " persistent undo history
 set noswapfile
 set nobackup
@@ -36,20 +40,12 @@ let g:netrw_liststyle = 3
 
 " better search
 set incsearch
-set nohlsearch
+set hlsearch
 set ignorecase
 set smartcase
 
 " For use with :find
 set path+=**
-
-" Enable recursive grep search
-if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case
-else   
-    set grepprg=grep\ -n\ -r\ $*\ /dev/null
-endif
-
 
 " Misc appearance
 set background=dark

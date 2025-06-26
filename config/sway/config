@@ -3,11 +3,12 @@ set $super Mod4
 set $meta Mod1
 
 set $term alacritty
-set $menu rofi -show run
+# set $menu rofi -show run
+set $menu tofi-run | xargs swaymsg exec --
 set $browser firefox
 
 # ===============Output configuration===============
-output * bg ~/.config/wallpaper/wall4.jpeg fill
+output * bg ~/.config/wallpaper/wall5.png fill
 
 output eDP-1 {
     mode 2880x1920@120.000Hz
@@ -19,6 +20,7 @@ bindswitch --reload --locked lid:off output eDP-1 enable
 
 # ===============Input configuration===============
 input type:touchpad {
+    dwt enabled
     tap enabled
     middle_emulation enabled
 }
@@ -27,8 +29,22 @@ input type:keyboard {
     repeat_delay 300
 }
 
-# ===============Lock configuration===============
+input type:touch {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+    tool_mode "*" relative
+    map_to_output eDP-1
+}
+
+# tablet mode
+# bindswitch tablet:on exec "squeekboard &> /dev/null & rot8 & dunstify 'Tablet mode ON'"
+# bindswitch tablet:off exec "pkill -x squeekboard & pkill -x rot8 & dunstify 'Tablet mode OFF'"
 exec dunst
+# exec ~/.config/sway/battery-notif
+
+# ===============Lock configuration===============
 exec swayidle -w before-sleep 'swaylock -f -c 000000'
 exec swayidle -w \
          timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on" \
@@ -42,7 +58,7 @@ bindsym $super+Shift+q  kill
 
 bindsym $super+Return   exec $term
 bindsym $super+q        exec $browser
-bindsym $super+d        exec discord --enable-features=UseOzonePlatform --ozone-platform=wayland
+bindsym $super+d        exec vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland
 
 floating_modifier $super normal
 
@@ -136,7 +152,7 @@ bindsym --locked XF86MonBrightnessDown  exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
 
 # screenshot
-bindsym Print exec grim -g "$(slurp)" - | wl-copy
+bindsym Print exec grim -g "$(slurp)" - | tee ~/pix/screen.png | wl-copy && notify-send --icon=$HOME/pix/screen.png "Screenshot Taken"
 
 # ===============Status Bar===============
 bar {

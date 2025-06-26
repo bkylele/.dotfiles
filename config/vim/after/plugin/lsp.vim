@@ -14,11 +14,27 @@ if executable('jdtls')
         \ })
 endif
 
-if executable('jedi-language-server')
+if executable('pylsp')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'jedi-language-server',
-        \ 'cmd': {server_info->['jedi-language-server']},
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp']},
         \ 'allowlist': ['python'],
+        \ })
+endif
+
+if executable('rust-analyzer')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rust-analyzer',
+        \ 'cmd': {server_info->['rust-analyzer']},
+        \ 'allowlist': ['rust'],
+        \ })
+endif
+
+if executable('haskell-language-server-wrapper')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'haskell-language-server-wrapper',
+        \ 'cmd': {server_info->['haskell-language-server-wrapper', '--lsp']},
+        \ 'allowlist': ['haskell', 'lhaskell'],
         \ })
 endif
 
@@ -40,7 +56,7 @@ function! s:on_lsp_buffer_enabled() abort
     let g:lsp_diagnostics_highlights_delay = 200
 
     let g:lsp_diagnostics_virtual_text_enabled = 1
-    let g:lsp_diagnostics_virtual_text_align = "after"
+    let g:lsp_diagnostics_virtual_text_align = "below"
 
     let g:lsp_inlay_hints_enabled = 0
     let g:lsp_document_code_action_signs_enabled = 0

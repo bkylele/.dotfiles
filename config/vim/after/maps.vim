@@ -2,8 +2,8 @@ let mapleader=" "
 
 nnoremap <leader>pv <cmd>Ex<cr>
 nnoremap <leader>pV <cmd>Vexplore<cr>
-nnoremap <leader>pf :find *
-nnoremap <leader>ps :grep 
+nnoremap <leader>pf :find<space>
+nnoremap <leader>ps :grep<space>
 
 function! ToggleQuickFix()
     if exists("g:qwindowopen")
@@ -15,11 +15,15 @@ function! ToggleQuickFix()
     endif
 endfunction
 nnoremap <leader>qq <cmd>call ToggleQuickFix()<cr>
+nnoremap <leader>qc <cmd>cclose<cr>
 nnoremap <leader>qn <cmd>cnext<cr>
 nnoremap <leader>qp <cmd>cprev<cr>
 
 " Running terminal tasks asynchronously
-cnoreabbrev term vert bo term ++shell
+" in case dispatch.vim is inadequate or unavailable
+cnoreabbrev term term ++shell
+
+nnoremap <leader>hh :h <c-r><c-w><cr>
 
 " Escape aliases
 inoremap <C-c> <Esc>
@@ -36,3 +40,4 @@ packadd comment
 " yank text before commenting it out
 nmap gyy yygcc
 vmap gy ygvgc
+
