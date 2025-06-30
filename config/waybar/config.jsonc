@@ -80,7 +80,7 @@
     "temperature": {
         "critical-threshold": 70,
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": ["", "", ""]
     },
 
     "backlight": {
@@ -95,7 +95,7 @@
         },
         "format": "{capacity}% {icon}",
         "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
+        "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         "format-icons": ["", "", "", "", ""]
@@ -119,8 +119,8 @@
         // "scroll-step": 1, // %, can be a float
         "format": "{volume}% {icon} {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": "{volume}%  {icon} {format_source}",
-        "format-muted": "{volume}%  {format_source}",
+        "format-bluetooth-muted": "{volume}%  {icon} {format_source}",
+        "format-muted": "{volume}%  {format_source}",
         "format-source": "  {volume}% ",
         "format-source-muted": "  ",
         "format-icons": {

@@ -10,13 +10,13 @@ pacman -Syuq --noconfirm
 
 # Essentials
 pacman -Sq --noconfirm \
-    man tmux htop bash-completion fastfetch fzf ripgrep fd yazi diff-so-fancy starship nix \
+    man tmux htop bash-completion fastfetch zoxide fzf ripgrep fd yazi diff-so-fancy starship nix \
     ttf-jetbrains-mono ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk \
     noto-fonts-emoji noto-fonts-extra ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono \
     xdg-desktop-portal xdg-desktop-portal-wlr \
     pulseaudio pulsemixer bluez bluetui grim wl-clipboard brightnessctl \
-    wayland alacritty sway waybar swaybg swaylock dunst rofi \
+    wayland alacritty sway waybar swaybg swaylock dunst \
     firefox
 
 # Yay and AUR packages
