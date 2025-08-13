@@ -1,0 +1,87 @@
+[global]
+# general appearance
+    width = (0, 400)
+    height = (0, 200)
+    origin = bottom-right
+    offset = (0, 0)
+    frame_width = 3
+    separator_height = 2
+    separator_color = frame
+    corner_radius = 7
+    follow = keyboard
+    scale = 0
+    notification_limit = 3
+    indicate_hidden = yes
+    stack_duplicates = false
+    hide_duplicate_count = false
+    idle_threshold = 10
+    padding = 15
+    horizontal_padding = 15
+    gap_size = 0
+    line_height = 10
+
+# font and text
+    font = JetBrains Nerd Font Mono 12
+    markup = full
+    word_wrap = yes
+    ellipsize = end
+    format = "<b>%s</b>\n%b\n"
+    ignore_newline = no
+    alignment = left
+    vertical_alignment = center
+
+# progress bars
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 0
+
+# icons
+    enable_recursive_icon_lookup = true
+    icon_position = left
+    min_icon_size = 48
+    max_icon_size = 150
+    icon_theme = "Adwaita"
+    icon_corner_radius = 5
+    text_icon_padding = 0
+
+# actions
+    sort = yes
+    show_age_threshold = 60
+    show_indicators = yes
+    sticky_history = yes
+    history_length = 50
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    ignore_dbusclose = false
+    force_xwayland = false
+    force_xinerama = false
+    browser = firefox
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[experimental]
+    per_monitor_dpi = true
+
+[urgency_low]
+    background = "#2E3440"
+    foreground = "#ececec"
+    frame_color = "#2E3440"
+    timeout = 10
+
+[urgency_normal]
+    background = "#2E3440"
+    foreground = "#ececec"
+    frame_color = "#9976ff"
+    timeout = 10
+
+[urgency_critical]
+    background = "#2E3440"
+    foreground = "#BF616A"
+    frame_color = "#BF616A"
+    highlight = "#BF616A"
+    timeout = 10

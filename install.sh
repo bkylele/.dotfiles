@@ -8,32 +8,88 @@ fi
 # Update packages
 pacman -Syuq --noconfirm
 
-# Essentials
-pacman -Sq --noconfirm \
-    man tmux htop bash-completion fastfetch zoxide fzf ripgrep fd yazi diff-so-fancy starship nix \
-    ttf-jetbrains-mono ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk \
-    noto-fonts-emoji noto-fonts-extra ttf-nerd-fonts-symbols \
-    ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono \
-    xdg-desktop-portal xdg-desktop-portal-wlr \
-    pulseaudio pulsemixer bluez bluetui grim wl-clipboard brightnessctl \
-    wayland alacritty sway waybar swaybg swaylock dunst \
+TERM_PKGS=(
+    neovim
+    man
+    tree
+    tmux
+    htop
+    bash-completion
+    fastfetch
+    zoxide
+    fzf
+    ripgrep
+    fd
+    yazi
+    diff-so-fancy
+    starship
+    nix
+    swi-prolog
+    spotify-player
+)
+
+FONT_PKGS=(
+    ttf-jetbrains-mono
+    ttf-jetbrains-mono-nerd
+    ttf-dejavu
+    ttf-dejavu-nerd
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-extra
+    ttf-nerd-fonts-symbols
+    ttf-nerd-fonts-symbols-common
+    ttf-nerd-fonts-symbols-mono
+)
+
+GUI_PKGS=(
+    pipewire-pulse
+    pulsemixer
+    bluez
+    bluetui
+    grim
+    slurp
+    wl-clipboard
+    brightnessctl
+    wayland
+    alacritty
+    sway
+    swaybg
+    swaylock
+    waybar
+    hyprland
+    hyprlock
+    hypridle
+    dunst
     firefox
+)
+
+
+# Essentials
+pacman -Sq --needed --noconfirm "${TERM_PKGS[@]}" "${FONT_PKGS[@]}" "${GUI_PKGS[@]}"
+
 
 # Yay and AUR packages
-# git clone https://aur.archlinux.org/yay.git /tmp/yay
-# cd /tmp/yay
-# makepkg -si --noconfirm
-# cd -
+git clone https://aur.archlinux.org/yay.git
+cd yay
+sudo -u $SUDO_USER makepkg -si --noconfirm
+cd -
 
-# yay -Sq --noconfirm rot8 squeekboard tofi vesktop
+AUR_PKGS=(
+    iio-hyprland
+    squeekboard
+    tofi
+    vesktop
+)
+
+yay -Sq --noconfirm "${AUR_PKGS[@]}" 
+
 
 # Create symlinks
 user_home=/home/$SUDO_USER
 
-rm -rf $user_home/.vim
-rm -rf $user_home/.viminfo
+mkdir -p $user_home/.config
 
-ln -sf $user_home/.dotfiles/config                  $user_home/.config
-ln -sf $user_home/.dotfiles/config/.bashrc          $user_home/.bashrc
-ln -sf $user_home/.dotfiles/config/.bash_profile    $user_home/.bash_profile
-
+for d in $user_home/.dotfiles/apps/* ; do
+    ln -sf $d ~/.config/$(basename $d)
+done
