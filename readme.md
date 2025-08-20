@@ -21,6 +21,21 @@ Thus some scripts are specialized for laptop specific behaviors and such. Here's
 #### - Closing the laptop lid will awaken the device from suspend
 [See workaround](https://github.com/linux-surface/linux-surface/wiki/Known-Issues-and-FAQ#suspend-aka-sleep-vs-lid-closingopening-events)
 
+> As a current workaround, or also to just not be bothered by any lid events with regards to the power state, disable or blacklist the "surface_gpe" module in the kernel:
+```bash
+$ sudo modprobe -r surface_gpe
+$ sudo bash -c 'echo -e "\n# Blacklisting lid vs. suspend issue module\nblacklist surface_gpe" >> /etc/modprobe.d/blacklist.conf'
+```
+
+#### - Squeekboard not appearing
+[See fix](https://github.com/droidian/squeekboard?tab=readme-ov-file#running)
+
+> Squeekboard honors the gnome "screen-keyboard-enabled" setting. Either enable this through gnome-settings under accessibility or run:
+```bash
+$ gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true
+```
+
+
 #### - Nix Shells permission denied
 Might be a quirk with using nix on Arch Linux, but sometimes the nix store changes owners from user to root. A simple `chown` will suffice:
 ```bash
