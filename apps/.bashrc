@@ -29,21 +29,12 @@ export XDG_CACHE_HOME="$HOME/.cache/"
 bind '"\C-x\C-d":"cd ~/.config/\C-m"'
 bind '"\C-x\C-p":"cd ~/prjx/\C-m"'
 
-# shell aliases
+# aliases
 alias ..='cd ..'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
-alias ll='ls -lh'
 alias la='ls -lah'
-
-alias gs='git status --short'
-alias ga='git add'
-alias gc='git commit -v'
-alias gd='git diff'
-alias gl="git log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(auto)  %D%n%s%n'"
-alias gcl='git clone'
-alias gch='git checkout'
-alias gap='git add --patch'
+alias ll='ls -lh'
 
 alias vi=$EDITOR
 alias open='xdg-open'
@@ -52,4 +43,3 @@ alias cd='z'
 eval "$(fzf --bash)"
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
-

@@ -2,21 +2,15 @@
 
 STATE_FILE="/tmp/tablet_mode_state"
 
-tablet_progs=(
-    squeekboard
-    iio-hyprland
-)
+touch $STATE_FILE
 
-if [ -f "$STATE_FILE" ] && grep -q "on" "$STATE_FILE"; then
-    for p in ${tablet_progs[@]}; do
-        killall $p
-    done
-
+if [ -f "$STATE_FILE" ] && grep -q "on" "$STATE_FILE" && grep open /proc/acpi/button/lid/LID0/state; then
+    killall squeekboard
+    killall iio-hyprland
     echo "off" > "$STATE_FILE"
 else
-    for p in ${tablet_progs[@]}; do
-        $p &
-    done
+    squeekboard &
+    iio-hyprland &
     echo "on" > "$STATE_FILE"
 fi
 

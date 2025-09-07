@@ -4,18 +4,18 @@ import Quickshell
 
 
 PanelWindow {
-    id:             topBar
-    implicitHeight: panelHeight
-    implicitWidth:  Screen.width * 0.45
+    id: topBar
     anchors.top: true
     color: "#FFFFFF"
+    implicitWidth: child.implicitWidth * 2
+    implicitHeight: panelHeight
 
     property int collapsedHeight:   Screen.width * 0.01
     property int hoverHeight:       Screen.width * 0.02
-    property int expandedHeight:    Screen.width * 0.25
+    property int expandedHeight:    child.implicitWidth
 
-    property int panelHeight:       expandedHeight
-    property bool isExpanded:       true
+    property int panelHeight:       collapsedHeight
+    property bool isExpanded:       false
 
     MouseArea {
         id: hoverArea
@@ -37,11 +37,12 @@ PanelWindow {
     }
 
     GridLayout {
+        id: child
         visible: topBar.isExpanded
         anchors.centerIn: parent
         // anchors.fill: parent
-        columnSpacing: 50
-        rowSpacing: 0
+        columnSpacing: 100
+        rowSpacing: 50
 
         // TODO bluetooth
         // TODO battery

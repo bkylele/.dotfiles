@@ -47,10 +47,15 @@ vim.cmd('filetype plugin on')
 vim.cmd('syntax on')
 vim.cmd('set completeopt+=noselect') -- omnicomplete won't autoselect first option
 
+vim.g.filetype_pl = 'prolog'
+
 
 -----------------------------------------------------------
 ---							Maps						---
 -----------------------------------------------------------
+
+vim.keymap.set('n', '<c-c>', '<esc>')
+vim.keymap.set('t', '<c-[>', '<c-\\><c-n>')
 
 vim.g.mapleader = ' '
 
@@ -78,7 +83,7 @@ vim.pack.add({
 
 	-- Project/Workflow
 	{ src = 'https://github.com/mbbill/undotree' },
-	{ src = 'https://github.com/stevearc/overseer.nvim' },
+	{ src = 'https://github.com/tpope/vim-dispatch' },
 	{ src = 'https://github.com/neovim/nvim-lspconfig' },
 
 	-- Misc
@@ -86,11 +91,6 @@ vim.pack.add({
 })
 
 require('mini.surround').setup()
-
-require('overseer').setup()
-vim.keymap.set('n', '<leader>rt', '<cmd>OverseerRun<cr>',           { desc = 'Run an Overseer template'})
-vim.keymap.set('n', '<leader>r<space>', ':OverseerRunCmd<space>',   { desc = 'Run a shell command with Overseer'})
-vim.keymap.set('n', '<leader>rr', '<cmd>OverseerToggle<cr>',        { desc = 'Toggle the Overseer Window'})
 
 vim.keymap.set('n', '<leader>u', '<cmd>UndotreeToggle<cr>',         { desc = 'Toggle the Undotree Window' })
 
@@ -102,9 +102,8 @@ vim.lsp.enable({
 	'jdtls',
 	'pyright',
 	'hls',
-	'qmlls',
+	'luals',
+	-- 'prolog_ls',
 })
-
-vim.lsp.config('qmlls', {cmd={'qmlls6'}})
 
 vim.cmd.colorscheme('catppuccin')

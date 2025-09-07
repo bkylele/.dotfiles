@@ -9,18 +9,19 @@ fi
 pacman -Syuq --noconfirm
 
 TERM_PKGS=(
-    neovim
     man
     tree
-    tmux
     htop
     bash-completion
     fastfetch
+    neovim
     zoxide
+    tmux
     fzf
     ripgrep
     fd
-    yazi
+    ranger
+    # yazi
     diff-so-fancy
     starship
     nix
@@ -91,5 +92,5 @@ user_home=/home/$SUDO_USER
 mkdir -p $user_home/.config
 
 for d in $user_home/.dotfiles/apps/* ; do
-    ln -sf $d ~/.config/$(basename $d)
+    ln -sf $d $user_home/.config/$(basename $d)
 done
