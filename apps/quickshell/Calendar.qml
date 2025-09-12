@@ -1,9 +1,10 @@
 import QtQuick
+import QtQuick.Layouts
 
 Item {
     id: root
-    width: 220
-    height: 215
+    width: 320
+    height: 230
 
     property date currentMonth: new Date()
 
@@ -93,21 +94,20 @@ Item {
         }
     }
 
-    Grid {
+    GridLayout {
         id: dayGrid
         columns: 7
         anchors.top: parent.top
         anchors.topMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 6
 
-        Rectangle{ width: 28; height: 28; Text { text: "Sun"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Mon"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Tue"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Wed"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Thu"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Fri"; font.bold: true; anchors.centerIn: parent } }
-        Rectangle{ width: 28; height: 28; Text { text: "Sat"; font.bold: true; anchors.centerIn: parent } }
+        Rectangle{ width: 28; height: 28; Text { text: "Sun"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Mon"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Tue"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Wed"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Thu"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Fri"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
+        Rectangle{ width: 28; height: 28; Text { text: "Sat"; font.bold: true; anchors.centerIn: parent } Layout.alignment: Qt.AlignHCenter }
 
         // Fill out the grid with days of the previous month
         Repeater {
@@ -115,7 +115,7 @@ Item {
             delegate: Rectangle {
                 width: 40; height: 28
                 radius: 14
-                border.color: "#888"
+                border.color: "#808080"
                 color: "transparent"
 
                 Text {
@@ -140,7 +140,7 @@ Item {
                         today.getFullYear() === currentMonth.getFullYear()
                     return isToday ? "#ff6666" : "transparent"
                 }
-                border.color: "#888"
+                border.color: "#808080"
 
                 Text {
                     anchors.centerIn: parent

@@ -1,8 +1,4 @@
 import QtQuick
-import QtQuick.Window
-
-pragma ComponentBehavior: Bound
-
 
 Item {
     id: root
@@ -21,10 +17,8 @@ Item {
         }
     }
 
-    // Clock Face
+    // root Face
     Item {
-        width: parent.width
-        height: parent.height
         anchors.centerIn: parent
 
         Column {
