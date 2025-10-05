@@ -3,13 +3,11 @@
     "height": 30, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
 
-    "modules-left": [
-    ],
+    // "modules-left": [
+    // ],
 
-    "modules-center": [
-        "sway/workspaces",
-        "sway/scratchpad"
-    ],
+    // "modules-center": [
+    // ],
 
     "modules-right": [
         "pulseaudio",

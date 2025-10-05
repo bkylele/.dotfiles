@@ -5,28 +5,24 @@ if [ $(id -u) -ne 0 ]; then
     exit 1
 fi
 
-# Update packages
-pacman -Syuq --noconfirm
-
 TERM_PKGS=(
     man
-    tree
     htop
     bash-completion
-    fastfetch
     neovim
-    zoxide
     tmux
+    fastfetch
+    zoxide
     fzf
     ripgrep
     fd
-    ranger
-    # yazi
+    bat
+    eza
+    nnn
     diff-so-fancy
     starship
     nix
     swi-prolog
-    spotify-player
 )
 
 FONT_PKGS=(
@@ -54,9 +50,6 @@ GUI_PKGS=(
     brightnessctl
     wayland
     alacritty
-    sway
-    swaybg
-    swaylock
     waybar
     hyprland
     hyprlock
@@ -65,17 +58,6 @@ GUI_PKGS=(
     firefox
 )
 
-
-# Essentials
-pacman -Sq --needed --noconfirm "${TERM_PKGS[@]}" "${FONT_PKGS[@]}" "${GUI_PKGS[@]}"
-
-
-# Yay and AUR packages
-git clone https://aur.archlinux.org/yay.git
-cd yay
-sudo -u $SUDO_USER makepkg -si --noconfirm
-cd -
-
 AUR_PKGS=(
     iio-hyprland
     squeekboard
@@ -83,8 +65,14 @@ AUR_PKGS=(
     vesktop
 )
 
-yay -Sq --noconfirm "${AUR_PKGS[@]}" 
+# AUR helper and pacman wrapper
+git clone https://aur.archlinux.org/paru.git
+cd paru
+sudo -u $SUDO_USER makepkg -si --noconfirm
+cd -
 
+paru -Syuq --noconfirm
+paru -Sq --needed --noconfirm "${TERM_PKGS[@]}" "${FONT_PKGS[@]}" "${GUI_PKGS[@]}" "${AUR_PKGS[@]}"
 
 # Create symlinks
 user_home=/home/$SUDO_USER

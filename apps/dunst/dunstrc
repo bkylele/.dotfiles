@@ -2,8 +2,8 @@
 # general appearance
     width = (0, 400)
     height = (0, 200)
-    origin = bottom-right
-    offset = (0, 0)
+    origin = top-right
+    offset = (0, 100)
     frame_width = 3
     separator_height = 2
     separator_color = frame
@@ -21,7 +21,7 @@
     line_height = 10
 
 # font and text
-    font = JetBrains Nerd Font Mono 12
+    font = JetBrains Nerd Font Mono 10
     markup = full
     word_wrap = yes
     ellipsize = end
@@ -41,8 +41,8 @@
 # icons
     enable_recursive_icon_lookup = true
     icon_position = left
-    min_icon_size = 48
-    max_icon_size = 150
+    min_icon_size = 50
+    max_icon_size = 80
     icon_theme = "Adwaita"
     icon_corner_radius = 5
     text_icon_padding = 0

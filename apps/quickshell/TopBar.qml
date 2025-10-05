@@ -17,10 +17,10 @@ PanelWindow {
         anchors.fill: parent
         radius: 15
 
-        Workspaces {
-            id: workspaces
-            anchors.centerIn: parent 
-        }
+        // Workspaces {
+        //     id: workspaces
+        //     anchors.centerIn: parent 
+        // }
 
         Item {
             id: topBar
@@ -29,7 +29,7 @@ PanelWindow {
             property int expandedHeight:    childLayout.implicitHeight
             property int collapsedHeight:   Screen.width * 0.02
 
-            property int panelWidth:        workspaces.width
+            property int panelWidth:        workspaces.width + 40
             property int panelHeight:       collapsedHeight
             property bool pinned:           false
             // property bool pinned:           true
@@ -56,7 +56,7 @@ PanelWindow {
                 State {
                     name: "collapsed"
                     PropertyChanges { target: topBar; panelHeight: topBar.collapsedHeight }
-                    PropertyChanges { target: topBar; panelWidth:  workspaces.width }
+                    PropertyChanges { target: topBar; panelWidth:  workspaces.width + 40 }
                     PropertyChanges { target: childLayout; visible: false }
                     PropertyChanges { target: workspaces; visible: true }
                 }
