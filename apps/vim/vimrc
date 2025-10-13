@@ -1,4 +1,247 @@
-runtime after/options.vim
-runtime after/maps.vim
-runtime after/cmds.vim
-runtime after/plugin/plugin.vim
+"""""""""""
+" OPTIONS "
+"""""""""""
+
+" set hybrid relative and absolute line numbers
+set number
+set relativenumber
+
+" cursor is minimum of 8 lines from the edges of the screen
+set scrolloff=8
+set sidescrolloff=8
+
+" set tab width
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+" auto indent new lines
+set smartindent
+
+" move to new split when creating one
+set splitbelow
+set splitright
+
+" persistent undo history
+set noswapfile
+set nobackup
+set undodir=$HOME/.local/vim/undo/
+set undofile
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p", 0700)
+endif
+
+set viminfofile=$HOME/.local/vim/viminfo
+
+" better netrw
+let g:netrw_dirhistmax = 0
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3 " tree style
+
+" better search
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" Add cwd recursively to path, for :find
+set path+=**
+
+" Appearance
+set background=dark
+set termguicolors
+set conceallevel=2
+
+" sometimes setting these will fix colors
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+colorscheme catppuccin_mocha
+
+set nocompatible            " don't char about vi compatability
+filetype plugin indent on   " extra things for certain filetypes
+syntax on                   " more colors
+
+
+""""""""""
+" REMAPS "
+""""""""""
+
+let mapleader=" "
+
+" Open VIMRC
+nnoremap <leader>pC <cmd>e $MYVIMRC<cr>
+
+
+" Netrw
+nnoremap <leader>pv <cmd>Ex<cr>
+nnoremap <leader>pV <cmd>Vexplore<cr>
+nnoremap <leader>pf :find<space>
+nnoremap <leader>ps :grep<space>
+
+" Quickfix
+function! ToggleQuickFix()
+    cclose
+    if exists("g:qwindowopen")
+        cclose
+        unlet g:qwindowopen
+    else
+        copen
+        let g:qwindowopen = 1
+    endif
+endfunction
+nnoremap <C-q> <cmd>call ToggleQuickFix()<cr>
+nnoremap ]q <cmd>cnext<cr>
+nnoremap [q <cmd>cprev<cr>
+
+" Running terminal tasks asynchronously
+" in case dispatch.vim is inadequate or unavailable
+cnoreabbrev term term ++shell
+
+" Search help page for word under cursor
+nnoremap <leader>h :h <c-r><c-w><cr>
+
+" Escape aliases
+inoremap <C-c> <Esc>
+inoremap jk <Esc>
+
+" Center cursor after jumping
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Wayland clipboard
+vnoremap <silent> <leader>y :silent w !wl-copy<CR>
+
+" Builtin commenting plugin
+packadd comment
+" yank text before commenting it out
+nmap gyy yygcc
+vmap gy ygvgc
+
+" Use these programs for internal vim commands if they are avaialable
+" if executable('fd')
+"     function! FdFind(cmdargs, cmdcomplete)
+"         let fnames = systemlist('fd ' . a:cmdargs)
+"         return l:fnames
+"     endfunction
+"     set findfunc=FdFind
+" endif
+
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --smart-case
+else  
+    set grepprg=grep\ -n\ -r\ $*\ /dev/null
+endif
+
+
+"""""""""""
+" PLUGINS "
+"""""""""""
+
+" Bootstrap for vim-plug
+let data_dir = '~/.config/vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+call plug#begin()
+
+" Extensions to vim built-ins
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-surround'
+
+" Extensions to project workflows
+Plug 'tpope/vim-dispatch'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/vim-lsp'
+
+call plug#end()
+
+
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd']},
+        \ 'allowlist': ['c', 'cpp'],
+        \ })
+endif
+
+if executable('jdtls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'jdtls',
+        \ 'cmd': {server_info->['jdtls']},
+        \ 'allowlist': ['java'],
+        \ })
+endif
+
+if executable('pylsp')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+if executable('rust-analyzer')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rust-analyzer',
+        \ 'cmd': {server_info->['rust-analyzer']},
+        \ 'allowlist': ['rust'],
+        \ })
+endif
+
+if executable('haskell-language-server-wrapper')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'haskell-language-server-wrapper',
+        \ 'cmd': {server_info->['haskell-language-server-wrapper', '--lsp']},
+        \ 'allowlist': ['haskell', 'lhaskell'],
+        \ })
+endif
+
+if executable('qmlls6')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'qmlls6',
+        \ 'cmd': {server_info->['qmlls6']},
+        \ 'allowlist': ['qml'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> [d <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]d <plug>(lsp-next-diagnostic)
+    nmap <buffer> ga <plug>(lsp-code-action-float)
+    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-b> lsp#scroll(-4)
+
+    let g:lsp_diagnostics_echo_delay = 200
+    let g:lsp_diagnostics_float_delay = 200
+    let g:lsp_diagnostics_highlights_delay = 200
+
+    let g:lsp_diagnostics_virtual_text_enabled = 1
+    let g:lsp_diagnostics_virtual_text_align = "below"
+
+    let g:lsp_inlay_hints_enabled = 0
+    let g:lsp_document_code_action_signs_enabled = 0
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+
+nnoremap <leader>u :UndotreeToggle<CR>
