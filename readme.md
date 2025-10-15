@@ -4,14 +4,14 @@ I like to experiment a lot with workflows, many things are subject to change.
 
 ## Installation
 
-Clone the repo into home, then run the install script:
+WIP, this branch is working on switching to using GNU Guix.
+
+Clone the repo into home, then create a new generation with `guix home`:
+
 ```bash
 $ git clone https://github.com/bkylele/.dotfiles.git ~/.dotfiles
-$ cd ~/.dotfiles
-$ ./install.sh
+$ guix home reconfiure ~/.dotfiles/home.scm
 ```
-
-If the install ever gets more complicated than the above, feel free to **euthanize me** as I have lost my way.
 
 ## Quirks/Workarounds
 
@@ -33,11 +33,4 @@ $ sudo bash -c 'echo -e "\n# Blacklisting lid vs. suspend issue module\nblacklis
 > Squeekboard honors the gnome "screen-keyboard-enabled" setting. Either enable this through gnome-settings under accessibility or run:
 ```bash
 $ gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true
-```
-
-
-#### - Nix Shells permission denied
-Might be a quirk with using nix on Arch Linux, but sometimes the nix store changes owners from user to root. A simple `chown` will suffice:
-```bash
-$ sudo chown -R user /nix
 ```

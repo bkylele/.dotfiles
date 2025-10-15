@@ -73,7 +73,6 @@ let mapleader=" "
 " Open VIMRC
 nnoremap <leader>pC <cmd>e $MYVIMRC<cr>
 
-
 " Netrw
 nnoremap <leader>pv <cmd>Ex<cr>
 nnoremap <leader>pV <cmd>Vexplore<cr>
@@ -109,6 +108,9 @@ inoremap jk <Esc>
 " Center cursor after jumping
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
+
+nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
+nnoremap ]<space> <cmd>call append(line('.'), '')<cr>
 
 " Wayland clipboard
 vnoremap <silent> <leader>y :silent w !wl-copy<CR>
@@ -155,9 +157,9 @@ Plug 'tpope/vim-surround'
 
 " Extensions to project workflows
 Plug 'tpope/vim-dispatch'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/vim-lsp'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+" Plug 'prabirshrestha/vim-lsp'
 
 call plug#end()
 
