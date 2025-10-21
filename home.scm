@@ -20,6 +20,25 @@
 	    (excluded '(".bashrc" ".bash_profile")) ;; handled by separate service
 	    (directories '("files")))))
 
+(define core
+  (specifications->packages
+   (list  "glibc-locales"
+	  "nss-certs"
+
+	  "grep"
+	  "git"
+	  "bash-completion"
+	  "htop"
+	  "tmux"
+	  "vim"
+	  "ripgrep"
+	  "fd"
+	  "fzf"
+	  "zoxide"
+	  "bc"
+	  "swi-prolog"
+	  "fastfetch")))
+
 (define emacs-custom
   (specifications->packages
    (list "emacs"
@@ -37,25 +56,8 @@
 	 "emacs-vterm")))
 
 (home-environment
- (packages (append
-	    (specifications->packages
-	     (list "glibc-locales"
-		   "nss-certs"
-
-		   "grep"
-		   "git"
-		   "bash-completion"
-		   "htop"
-		   "tmux"
-		   "vim"
-		   "ripgrep"
-		   "fd"
-		   "fzf"
-		   "zoxide"
-		   "bc"
-		   "swi-prolog"
-		   "fastfetch"))
-	    emacs-custom))
+ (packages `(,@core
+	     ,@emacs-custom))
 
  (services
   (append (list bash-service
