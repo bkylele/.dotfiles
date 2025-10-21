@@ -5,7 +5,7 @@
     a = add
     ap = add --patch
     res = restore
-    reb = rebase -i
+    reb = rebase
     c = commit
     d = diff
     l = log
@@ -17,6 +17,9 @@
 
 [pull]
     rebase = true
+
+[rebase]
+    interactive = true
 
 [commit]
     verbose = true
@@ -32,21 +35,12 @@
     renames = copies
     interHunkContext = 10
 
-[pager]
-    diff = diff-so-fancy
-
-[diff-so-fancy]
-    markEmptyLines = false
-
-[interactive]
-    diffFilter = diff-so-fancy --patch
-    singlekey = true
-
 [url "git@github.com:"]
     insteadOf = "gh:"
 
 [url "https://aur.archlinux.org/"]
     insteadOf = "aur:"
+
 [user]
 	email = bkylele@gmail.com
 	name = Brian Le
