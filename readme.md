@@ -6,11 +6,11 @@ I like to experiment a lot with workflows, many things are subject to change.
 
 WIP, this branch is working on switching to using GNU Guix.
 
-Clone the repo into home, then create a new generation with `guix home`:
+Clone the repo into home, then create a new generation with `guix home`. A Makefile is provided for convenience.
 
 ```bash
 $ git clone https://github.com/bkylele/.dotfiles.git ~/.dotfiles
-$ guix home reconfiure ~/.dotfiles/home.scm
+$ make
 ```
 
 ## Quirks/Workarounds
