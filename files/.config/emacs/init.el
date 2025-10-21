@@ -1,5 +1,5 @@
 ;; Allow higher threshold before garbage collection (100MB)
-(setq gc-cons-threshold (* 100 1024 1024))
+(setq gc-cons-threshold (* 16 1024 1024))
 
 ;;; ==================================
 ;;;             General
@@ -16,7 +16,7 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 't)
 (blink-cursor-mode -1)
-(set-face-attribute 'default nil :font "Noto Sans Mono-12")
+(set-face-attribute 'default nil :font "JetBrains Mono-12")
 (load-theme 'modus-vivendi-tinted :no-confirm)
 
 ;; 'y' or 'n' answers
@@ -28,6 +28,9 @@
 ;; Reload buffers when the underlying file has changed
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
+
+;; Prompt before closing emacs
+(setq confirm-kill-emacs #'yes-or-no-p)
 
 ;; Tidy up
 (let ((emacs-data-dir "~/.local/state/emacs/"))
@@ -42,6 +45,11 @@
 ;; Move customization variables to a separate file and load it
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq c-set-style "k&r")
+(setq c-basic-offset 4)
 
 ;;; ==================================
 ;;;             Packages
@@ -61,7 +69,9 @@
   :config
   (evil-mode)
 
-  (evil-define-key '(visual) 'global (kbd "SPC y") (kbd "\" + y"))
+  (global-set-key [remap evil-quit] 'kill-buffer-and-window)
+
+  (evil-define-key '(normal) 'global (kbd "Q") (kbd "@@"))
 
   (evil-define-key '(normal visual) 'global (kbd "SPC u") 'undo-tree-visualize)
 
@@ -71,7 +81,10 @@
   (evil-define-key '(normal visual) 'global (kbd "SPC b") 'switch-to-buffer)
   (evil-define-key '(normal visual) 'global (kbd "SPC k") 'kill-current-buffer)
 
+  (evil-define-key '(normal visual) 'global (kbd "SPC g") 'magit)
+
   (evil-define-key '(normal visual) 'global (kbd "SPC t") 'vterm)
+
   (evil-define-key '(normal visual) 'global (kbd "K") 'lsp-ui-doc-glance)
 
   (evil-define-key '(normal visual) 'global (kbd "SPC SPC") 'execute-extended-command))
@@ -124,15 +137,27 @@
 ;;; Projects and IDE features
 ;;;
 
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-l")
-  :hook (;; (XXX-mode . lsp)  ;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-	 ('c++-mode . 'lsp))
-  :commands (lsp lsp-deferred)
-  :config
-  (setq lsp-session-file (expand-file-name "~/.local/share/lsp/session-v1"))
-  (setq lsp-server-install-dir (expand-file-name "~/.local/state/emacs/lsp/")))
+(use-package magit)
 
-(use-package lsp-ui
-  :hook ('lsp-mode . 'lsp-ui-mode))
+(use-package eglot
+  :hook
+  (cpp-mode . eglot-ensure)
+  :config
+  (with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               ;; '(foo-mode . ("fools" "--stdio"))
+	       '(c++-mode . ("clangd"))
+	       )))
+
+;; (use-package lsp-mode
+;;   :init
+;;   (setq lsp-keymap-prefix "C-l")
+;;   :hook (;; (XXX-mode . lsp)  ;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;; 	 ('c++-mode . 'lsp))
+;;   :commands (lsp lsp-deferred)
+;;   :config
+;;   (setq lsp-session-file (expand-file-name "~/.local/share/lsp/session-v1"))
+;;   (setq lsp-server-install-dir (expand-file-name "~/.local/state/emacs/lsp/")))
+
+;; (use-package lsp-ui
+;;   :hook ('lsp-mode . 'lsp-ui-mode))

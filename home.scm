@@ -5,6 +5,9 @@
              (guix packages)
              (gnu packages shells)
              (gnu home services)
+
+
+	     (gnu home services niri)
 	     (gnu home services dotfiles)
              (gnu home services shells))
 
@@ -37,7 +40,10 @@
 	  "zoxide"
 	  "bc"
 	  "swi-prolog"
-	  "fastfetch")))
+	  "fastfetch"
+
+	  "fuzzel"
+	  )))
 
 (define emacs-custom
   (specifications->packages
@@ -47,12 +53,11 @@
 	 "emacs-evil-commentary"
 	 "emacs-evil-numbers"
 	 "emacs-evil-surround"
+	 "emacs-magit"
 	 "emacs-undo-tree"
 	 "emacs-dashboard"
 	 "emacs-rainbow-delimiters"
 	 "emacs-doom-modeline"
-	 "emacs-lsp-mode"
-	 "emacs-lsp-ui"
 	 "emacs-vterm")))
 
 (home-environment
@@ -61,5 +66,6 @@
 
  (services
   (append (list bash-service
-		dotfiles-service)
+		dotfiles-service
+		(service home-niri-service-type))
 	  %base-home-services)))

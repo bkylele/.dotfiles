@@ -1,11 +1,14 @@
+GUIX_FLAGS := --max-jobs=8 --cores=4
+
 install: home.scm channels.scm
-	guix time-machine --channels=channels.scm -- guix home reconfigure $<
+	guix time-machine $(GUIX_FLAGS) --channels=channels.scm -- home reconfigure $<
 
 test: home.scm channels.scm
-	guix time-machine --channels=channels.scm -- guix home container $<
+	guix time-machine $(GUIX_FLAGS) --channels=channels.scm -- home container $<
 
 update:
-	guix pull
+	guix pull $(GUIX_FLAGS)
+	rm channels.scm
 
 .PHONY: reconfigure, update, test
 
