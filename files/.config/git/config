@@ -1,0 +1,52 @@
+[alias]
+    cl = clone
+    ch = checkout
+    s = status
+    a = add
+    ap = add --patch
+    res = restore
+    reb = rebase -i
+    c = commit
+    d = diff
+    l = log
+
+[status]
+    branch = true
+    showStash = true
+    short = true
+
+[pull]
+    rebase = true
+
+[commit]
+    verbose = true
+
+[log]
+    abbrevCommit = true
+    all = true
+    graph = true
+    pretty = format:'%C(magenta)%h %C(white) %an  %ar%C(auto)  %D%n%s%n'
+
+[diff]
+    context = 3
+    renames = copies
+    interHunkContext = 10
+
+[pager]
+    diff = diff-so-fancy
+
+[diff-so-fancy]
+    markEmptyLines = false
+
+[interactive]
+    diffFilter = diff-so-fancy --patch
+    singlekey = true
+
+[url "git@github.com:"]
+    insteadOf = "gh:"
+
+[url "https://aur.archlinux.org/"]
+    insteadOf = "aur:"
+[user]
+	email = bkylele@gmail.com
+	name = Brian Le
