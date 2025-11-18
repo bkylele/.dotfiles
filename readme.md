@@ -37,7 +37,8 @@ $ gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true
 
 
 #### - Nix Shells permission denied
-Might be a quirk with using nix on Arch Linux, but sometimes the nix store changes owners from user to root. A simple `chown` will suffice:
+You might need to set an environment variable to go through the nix daemon. Add this to .bashrc
+
 ```bash
-$ sudo chown -R user /nix
+$ export NIX_REMOTE=daemon
 ```
