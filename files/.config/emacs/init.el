@@ -69,7 +69,7 @@
   :config
   (evil-mode)
 
-  (global-set-key [remap evil-quit] 'kill-buffer-and-window)
+  ;; (global-set-key [remap evil-quit] 'kill-buffer-and-window)
 
   (evil-define-key '(normal) 'global (kbd "Q") (kbd "@@"))
 
@@ -79,6 +79,7 @@
   (evil-define-key '(normal visual) 'global (kbd "SPC p f") 'find-file)
   (evil-define-key '(normal visual) 'global (kbd "SPC p v") (kbd "SPC p f RET"))
   (evil-define-key '(normal visual) 'global (kbd "SPC b") 'switch-to-buffer)
+  (evil-define-key '(normal visual) 'global (kbd "SPC B") 'list-buffers)
   (evil-define-key '(normal visual) 'global (kbd "SPC k") 'kill-current-buffer)
 
   (evil-define-key '(normal visual) 'global (kbd "SPC g") 'magit)
@@ -132,6 +133,12 @@
 
 (use-package vterm)
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
+;; jupyter
+(setq ein:output-area-inlined-images t)
 
 ;;;
 ;;; Projects and IDE features
@@ -146,18 +153,4 @@
   (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
                ;; '(foo-mode . ("fools" "--stdio"))
-	       '(c++-mode . ("clangd"))
-	       )))
-
-;; (use-package lsp-mode
-;;   :init
-;;   (setq lsp-keymap-prefix "C-l")
-;;   :hook (;; (XXX-mode . lsp)  ;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-;; 	 ('c++-mode . 'lsp))
-;;   :commands (lsp lsp-deferred)
-;;   :config
-;;   (setq lsp-session-file (expand-file-name "~/.local/share/lsp/session-v1"))
-;;   (setq lsp-server-install-dir (expand-file-name "~/.local/state/emacs/lsp/")))
-
-;; (use-package lsp-ui
-;;   :hook ('lsp-mode . 'lsp-ui-mode))
+               '(c++-mode . ("clangd")))))

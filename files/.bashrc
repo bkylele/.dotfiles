@@ -10,7 +10,7 @@ if [[ -n "$GUIX_ENVIRONMENT" ]]; then
     PS1="\[\033[1;34m\]\w \[\033[1;32m\]λ \[\033[1;33m\][guix] \[\033[00m\]"
 fi
 
-export GUIX_LOC="$HOME/.cache/"
+export GUIX_LOCPATH="/home/bkyle/.guix-home/profile/lib/locale"
 export SSL_CERT_DIR="$HOME/.guix-home/profile/etc/ssl/certs"
 export SSL_CERT_FILE="$HOME/.guix-home/profile/etc/ssl/certs/ca-certificates.crt"
 export GIT_SSL_CAINFO="$SSL_CERT_FILE"
@@ -22,7 +22,7 @@ export XDG_CACHE_HOME="$HOME/.cache/"
 
 export LESSHISTFILE="-"
 export TERMINAL="alacritty"
-export EDITOR="vim"
+export EDITOR="nvim"
 
 alias ..="cd .."
 alias g="git"
@@ -31,10 +31,12 @@ alias la="ls -la"
 alias ll="ls -l"
 alias cd="z"
 alias open="xdg-open"
-alias vi="vim"
+alias vi="nvim"
 
 bind '"\C-x\C-d":"cd ~/.config/\C-m"'
 bind '"\C-x\C-p":"cd ~/prjx/\C-m"'
 
 eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
+eval "$(direnv hook bash)"
+# eval "$(starship init bash)"
