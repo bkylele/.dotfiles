@@ -47,3 +47,6 @@
 
 [url "https://aur.archlinux.org/"]
     insteadOf = "aur:"
+[user]
+	email = bkylele@gmail.com
+	name = Brian Le

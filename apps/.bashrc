@@ -8,6 +8,8 @@
 # Change prompt:
 PS1='\[\033[1;34m\]\w \[\033[1;32m\]λ \[\033[00m\]'
 
+export NIX_REMOTE=daemon
+
 #
 # Default Programs
 #
@@ -17,8 +19,6 @@ export TERMINAL="alacritty"
 #
 # Clean-up 
 #
-# unset HISTFILE
-# export LESSHISTFILE="-"
 
 export XDG_CONFIG_HOME="$HOME/.config/"
 export XDG_DATA_HOME="$HOME/.local/share/"
@@ -32,22 +32,14 @@ bind '"\C-x\C-p":"cd ~/prjx/\C-m"'
 # aliases
 alias ..='cd ..'
 alias grep='grep --color=auto'
-alias ls='eza'
+alias ls='ls --color=auto'
 alias la='ls -lah'
 alias ll='ls -lh'
 alias vi=$EDITOR
 alias g='git'
-alias open='xdg-open'
 alias cd='z'
-alias cat='bat'
+alias open='xdg-open'
 
 eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
-# eval "$(starship init bash)"
-
-if [ -n "$GUIX_ENVIRONMENT" ]; then
-    if [[ $PS1 =~ (.*)" " ]]; then
-        PS1="${BASH_REMATCH[1]} \[\033[1;34m\](guix)\[\033[00m\] "
-    fi
-fi
-
+eval "$(direnv hook bash)"
