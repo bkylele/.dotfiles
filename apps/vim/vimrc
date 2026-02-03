@@ -33,6 +33,7 @@ set viminfofile=$HOME/.local/state/vim/viminfo
 let g:netrw_dirhistmax=0
 let g:netrw_banner=0
 let g:netrw_liststyle=3
+let g:netrw_keepdir=0
 
 " set path+=**
 
@@ -84,32 +85,33 @@ nnoremap <space>pv <cmd>Explore<cr>
 nnoremap <space>pf :find<space>
 nnoremap <space>ps :grep<space>
 
+if executable('fzf')
+    nnoremap <space>pf <cmd>FZF<cr>
+endif
+
 nnoremap [q <cmd>cprev<cr>
 nnoremap ]q <cmd>cnext<cr>
 
-nnoremap [b <cmd>cprev<cr>
-nnoremap ]b <cmd>cnext<cr>
+nnoremap [b <cmd>bprev<cr>
+nnoremap ]b <cmd>bnext<cr>
 
 
 "-----------------------------------------------------------
 "                           Plugins                         
 "-----------------------------------------------------------
 
-let packdir=$MYVIMDIR . '/pack/default/start/'
-if !isdirectory(packdir)
-    call mkdir(packdir, "p", 0700)
+let data_dir = '~/.config/vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-if !isdirectory(packdir . "vim-fugitive")
-    call system("git clone git@github.com:tpope/vim-fugitive" . " " . expand(packdir) . "vim-fugitive")
-endif
+call plug#begin()
 
-if !isdirectory(packdir . "vim-surround")
-    call system("git clone git@github.com:tpope/vim-surround" . " " . expand(packdir) . "vim-surround")
-endif
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-vinegar'
+Plug 'mbbill/undotree'
 
-if !isdirectory(packdir . "undotree")
-    call system("git clone git@github.com:mbbill/undotree.git" . " " . expand(packdir) . "undotree")
-endif
-nnoremap <space>u <cmd>UndotreeToggle<cr>
+call plug#end()
 

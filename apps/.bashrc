@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 # Change prompt:
-PS1='\[\033[1;34m\]\w \[\033[1;32m\]λ \[\033[00m\]'
+PS1='\[\033[1;34m\]\w \[\033[1;32m\]λ\[\033[00m\] '
 
 export NIX_REMOTE=daemon
 
@@ -28,6 +28,7 @@ export XDG_CACHE_HOME="$HOME/.cache/"
 # binds
 bind '"\C-x\C-d":"cd ~/.config/\C-m"'
 bind '"\C-x\C-p":"cd ~/prjx/\C-m"'
+bind '"\C-x,":"nix run nixpkgs#"'
 
 # aliases
 alias ..='cd ..'
@@ -37,9 +38,11 @@ alias la='ls -lah'
 alias ll='ls -lh'
 alias vi=$EDITOR
 alias g='git'
+alias py='python'
 alias cd='z'
 alias open='xdg-open'
 
 eval "$(fzf --bash)"
 eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
+

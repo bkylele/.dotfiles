@@ -48,5 +48,5 @@
 [url "https://aur.archlinux.org/"]
     insteadOf = "aur:"
 [user]
-	email = bkylele@gmail.com
+	email = brian.k.le@proton.me
 	name = Brian Le
