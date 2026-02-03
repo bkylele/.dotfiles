@@ -7,22 +7,16 @@ fi
 
 TERM_PKGS=(
     man
-    htop
     bash-completion
+    htop
+    vim
     neovim
-    tmux
-    fastfetch
     zoxide
     fzf
     ripgrep
     fd
-    bat
-    eza
-    nnn
     diff-so-fancy
-    starship
-    nix
-    swi-prolog
+    fastfetch
 )
 
 FONT_PKGS=(
@@ -51,17 +45,16 @@ GUI_PKGS=(
     wayland
     alacritty
     waybar
-    hyprland
-    hyprlock
-    hypridle
-    dunst
-    firefox
+    niri
+    chromium
 )
 
 AUR_PKGS=(
-    iio-hyprland
+    iio-niri
+    iio-sensor-proxy
     squeekboard
     tofi
+    fuzzel
     vesktop
 )
 
