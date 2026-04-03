@@ -1,0 +1,45 @@
+-- -- Center code 
+-- local function get_centered_statuscol()
+--     local win_id = vim.api.nvim_get_current_win()
+--     local win_width = vim.api.nvim_win_get_width(win_id)
+--
+--     -- 1. Determine target width (use buffer's textwidth or a default)
+--     local target_width = vim.bo.textwidth > 0 and vim.bo.textwidth or 80
+--
+--     -- 2. Calculate the 'gutter' width (line numbers + sign column)
+--     -- 'numberwidth' is the minimum, but we check actual space used
+--     local gutter_width = vim.fn.getwininfo(win_id)[1].textoff
+--
+--     -- 3. Calculate padding
+--     -- We subtract gutter_width because statuscolumn starts at the far left
+--     local padding = math.floor((win_width - target_width) / 2) - gutter_width
+--
+--     return padding > 0 and (string.rep(' ', padding) .. '%l ') or ('%l ')
+-- end
+--
+-- vim.api.nvim_create_autocmd({
+--     'BufEnter', 'BufWinEnter', 'WinEnter', 'WinResized', 'VimResized'
+-- }, {
+--     callback = function()
+--         if vim.tbl_contains({ 'typst', 'tex', 'markdown' }, vim.bo.filetype) then
+--             vim.opt_local.statuscolumn = ''
+--         else
+--             vim.o.statuscolumn = get_centered_statuscol()
+--         end
+--     end,
+-- })
+--
+-- -- Turn on doc stuff for doc types
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = { 'typst', 'tex', 'markdown' },
+--     callback = function()
+--         vim.o.spell = true
+--         vim.o.wrap = true
+--         vim.o.linebreak = true -- Breaks lines at words, not mid-word
+--
+--         vim.keymap.set('n', 'j', 'gj')
+--         vim.keymap.set('n', 'k', 'gk')
+--     end
+-- })
+
+
