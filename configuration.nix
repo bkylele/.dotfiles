@@ -46,6 +46,7 @@
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
 
+  i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "America/Los_Angeles";
 
   environment.sessionVariables = {
@@ -69,11 +70,13 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+
   programs.nh.enable = true;
   programs.direnv.enable = true;
   programs.firefox.enable = true;
   programs.niri.enable = true;
-  # programs.waybar.enable = true;
+  programs.steam.enable = true;
 
   services.gvfs.enable = true; # required for certain nautilus functions
 
@@ -123,14 +126,18 @@
     wf-recorder
     slurp
     nautilus
-    quickshell
     hyprlock
     hypridle
     mako
+    quickshell
+    mpv
+    imv
+
     kitty
     fuzzel
     vesktop
     catppuccin-cursors.mochaDark
+    xwayland-satellite
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
