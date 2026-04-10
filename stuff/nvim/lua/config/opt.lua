@@ -15,9 +15,6 @@ vim.o.expandtab = true
 vim.o.incsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
--- :noh after 4 secs or on entering insert
-vim.cmd.packadd('nohlsearch')
-vim.cmd('let loaded_matchparen = 1')
 
 vim.o.undofile = true
 vim.o.swapfile = false
@@ -28,9 +25,6 @@ vim.cmd('filetype plugin on')
 vim.cmd('syntax on')
 vim.cmd('set completeopt+=fuzzy')
 
-vim.g.filetype_pl = 'prolog'
-
 vim.o.termguicolors = true
 vim.o.conceallevel = 2
 vim.o.winborder = 'double'
-

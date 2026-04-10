@@ -112,7 +112,9 @@
 
   # System Profile
   environment.systemPackages = with pkgs; [
-    neovim
+    # neovim
+    inputs.neovim.packages.${pkgs.system}.default
+
     git
     htop
     zoxide

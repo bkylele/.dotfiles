@@ -10,6 +10,8 @@
           url = "github:nix-community/nix-index-database";
           inputs.nixpkgs.follows = "nixpkgs";
       };
+
+      neovim.url = "path:stuff/nvim/flake.nix";
   };
 
   outputs =
@@ -21,6 +23,8 @@
     }@inputs:
     {
       nixosConfigurations.buggy = nixpkgs.lib.nixosSystem {
+        specialargs = { inherit inputs; };
+
         modules = [
           ./configuration.nix
           nixos-hardware.nixosModules.microsoft-surface-pro-intel

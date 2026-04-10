@@ -1,9 +1,9 @@
-return {
-    'neovim/nvim-lspconfig',
-
-    config = function()
-        vim.lsp.enable({
-            'clangd',
-        })
-    end
-}
+-- return {
+--     'neovim/nvim-lspconfig',
+--
+--     config = function()
+--         vim.lsp.enable({
+--             'clangd',
+--         })
+--     end
+-- }
