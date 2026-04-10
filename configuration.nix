@@ -113,7 +113,8 @@
   # System Profile
   environment.systemPackages = with pkgs; [
     # look into exporting an overlay?
-    inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
+    neovim
 
     git
     htop
