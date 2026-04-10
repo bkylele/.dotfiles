@@ -32,20 +32,10 @@
 
         modules = [
           ./configuration.nix
+          ./overlays.nix
           nixos-hardware.nixosModules.microsoft-surface-pro-intel
           inputs.nix-index-database.nixosModules.default
           { programs.nix-index-database.comma.enable = true; }
-
-          # Inline module to inject the overlay globally
-          ({ pkgs, ... }: {
-              nixpkgs.overlays = [
-                (final: prev: {
-                  # Map the sub-flake output to 'pkgs.nvim'
-                  neovim = inputs.neovim.packages.${prev.stdenv.hostPlatform.system}.default;
-                })
-              ];
-          })
-
         ];
       };
     };
