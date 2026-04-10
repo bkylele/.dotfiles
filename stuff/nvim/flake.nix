@@ -1,5 +1,5 @@
 {
-  description = "A basic flake with a shell";
+  description = "My Neovim Configuration";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.systems.url = "github:nix-systems/default";
   inputs.flake-utils = {
@@ -15,14 +15,22 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages.default = pkgs.symlinkJoin {
+        packages.default = let 
+            nvimConfig = pkgs.runCommand "nvim-config" {} ''
+              mkdir -p $out/nvim
+              cp -r ${./.}/* $out/nvim/
+            '';
+        in
+        pkgs.symlinkJoin {
           name = "nvim-custom";
           paths = [
             (pkgs.writeShellScriptBin "nvim" ''
-              exec ${pkgs.neovim}/bin/nvim -u ${./init.lua} "$@"
+              export XDG_CONFIG_HOME="${nvimConfig}"
+              exec ${pkgs.neovim}/bin/nvim "$@"
             '')
             pkgs.neovim
           ];
+	  meta.mainProgram = "nvim";
         };
       }
     );

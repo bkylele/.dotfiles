@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
@@ -112,8 +112,8 @@
 
   # System Profile
   environment.systemPackages = with pkgs; [
-    # neovim
-    inputs.neovim.packages.${pkgs.system}.default
+    # look into exporting an overlay?
+    inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     git
     htop

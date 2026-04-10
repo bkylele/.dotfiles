@@ -11,7 +11,7 @@
           inputs.nixpkgs.follows = "nixpkgs";
       };
 
-      neovim.url = "path:stuff/nvim/flake.nix";
+      neovim.url = "path:stuff/nvim/";
   };
 
   outputs =
@@ -23,7 +23,7 @@
     }@inputs:
     {
       nixosConfigurations.buggy = nixpkgs.lib.nixosSystem {
-        specialargs = { inherit inputs; };
+        specialArgs = { inherit inputs; };
 
         modules = [
           ./configuration.nix
