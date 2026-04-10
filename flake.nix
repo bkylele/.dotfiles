@@ -12,6 +12,7 @@
     };
 
     neovim.url = "path:stuff/nvim/";
+    niri.url = "path:stuff/niri/";
   };
 
   outputs =
@@ -24,7 +25,7 @@
     {
 
       packages.x86_64-linux = {
-        nvim = inputs.neovim.packages.x86_64-linux.default;
+        neovim = inputs.neovim.packages.x86_64-linux.default;
       };
 
       nixosConfigurations.buggy = nixpkgs.lib.nixosSystem {
@@ -33,6 +34,7 @@
         modules = [
           ./configuration.nix
           ./overlays.nix
+
           nixos-hardware.nixosModules.microsoft-surface-pro-intel
           inputs.nix-index-database.nixosModules.default
           { programs.nix-index-database.comma.enable = true; }

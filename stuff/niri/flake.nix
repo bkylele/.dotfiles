@@ -1,5 +1,5 @@
 {
-  description = "My Neovim Configuration";
+  description = "My Niri Configuration";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.systems.url = "github:nix-systems/default";
   inputs.flake-utils = {
@@ -16,20 +16,18 @@
       in
       {
         packages.default = pkgs.symlinkJoin {
-          name = "neovim";
-          paths = [ pkgs.neovim ];
+          name = "niri";
+          paths = [ pkgs.niri ];
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
                 --set XDG_CONFIG_HOME "${
-                  pkgs.runCommand "nvim-config" { } ''
-                    mkdir -p $out/nvim
-                    cp -r ${./.}/* $out/nvim/
+                  pkgs.runCommand "niri-config" { } ''
+                    mkdir -p $out/niri
+                    cp -r ${./.}/* $out/niri/
                   ''
                 }"
           '';
-
-          meta.mainProgram = "nvim";
         };
       }
     );

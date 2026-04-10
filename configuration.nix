@@ -70,16 +70,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  programs.nh.enable = true;
-  programs.direnv.enable = true;
-  programs.firefox.enable = true;
-  programs.niri.enable = true;
-  programs.steam.enable = true;
-
-  services.gvfs.enable = true; # required for certain nautilus functions
-
   services.thermald.enable = true;
   services.auto-cpufreq.enable = true;
   services.auto-cpufreq.settings = {
@@ -92,6 +82,13 @@
       turbo = "auto";
     };
   };
+
+  programs.nh.enable = true;
+  programs.direnv.enable = true;
+  programs.firefox.enable = true;
+  programs.niri.enable = true;
+  programs.steam.enable = true;
+  services.gvfs.enable = true; # required for certain nautilus functions
 
   services.greetd = {
     enable = true;
@@ -112,10 +109,7 @@
 
   # System Profile
   environment.systemPackages = with pkgs; [
-    # look into exporting an overlay?
-    # inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default
     neovim
-
     git
     htop
     zoxide
@@ -126,6 +120,7 @@
     btop
 
     brightnessctl
+    wl-clipboard
     wf-recorder
     slurp
     nautilus
