@@ -22,7 +22,7 @@
           postBuild = ''
             wrapProgram $out/bin/nvim \
                 --set XDG_CONFIG_HOME "${
-                  pkgs.runCommand "nvim-config" { } ''
+                  pkgs.runCommandLocal "nvim-config" { } ''
                     mkdir -p $out/nvim
                     cp -r ${./.}/* $out/nvim/
                   ''

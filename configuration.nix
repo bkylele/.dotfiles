@@ -83,6 +83,8 @@
     };
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   programs.nh.enable = true;
   programs.direnv.enable = true;
   programs.firefox.enable = true;

@@ -20,7 +20,7 @@
           paths = [ pkgs.niri ];
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
-            wrapProgram $out/bin/nvim \
+            wrapProgram $out/bin/niri-session \
                 --set XDG_CONFIG_HOME "${
                   pkgs.runCommand "niri-config" { } ''
                     mkdir -p $out/niri
@@ -28,6 +28,7 @@
                   ''
                 }"
           '';
+          passthru.providedSessions = [ "niri" ];
         };
       }
     );
