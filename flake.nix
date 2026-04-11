@@ -16,10 +16,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    kitty = {
-      url = "path:stuff/kitty/";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # kitty = {
+    #   url = "path:stuff/kitty/";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # niri = {
     #   url = "path:stuff/niri/";
@@ -44,7 +44,6 @@
 
       packages.x86_64-linux = {
         neovim = inputs.neovim.packages.x86_64-linux.default;
-        kitty = inputs.kitty.packages.x86_64-linux.default;
       };
 
       nixosConfigurations.buggy = nixpkgs.lib.nixosSystem {
