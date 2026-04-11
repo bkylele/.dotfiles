@@ -13,6 +13,11 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        nvimConfigPath = pkgs.runCommandLocal "nvim-config" { } ''
+          mkdir -p $out/nvim
+          cp -r ${./.}/* $out/nvim/
+        '';
       in
       {
         packages.default = pkgs.symlinkJoin {
@@ -21,12 +26,7 @@
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
-                --set XDG_CONFIG_HOME "${
-                  pkgs.runCommandLocal "nvim-config" { } ''
-                    mkdir -p $out/nvim
-                    cp -r ${./.}/* $out/nvim/
-                  ''
-                }"
+                --set XDG_CONFIG_HOME "${nvimConfigPath}"
           '';
 
           meta.mainProgram = "nvim";
