@@ -26,7 +26,8 @@
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
-                --set XDG_CONFIG_HOME "${nvimConfigPath}"
+                --add-flags "--cmd 'set runtimepath^=${nvimConfigPath}/nvim'" \
+                --add-flags "-u ${nvimConfigPath}/nvim/init.lua"
           '';
 
           meta.mainProgram = "nvim";
