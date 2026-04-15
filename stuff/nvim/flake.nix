@@ -15,8 +15,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         nvimConfigPath = pkgs.runCommandLocal "nvim-config" { } ''
-          mkdir -p $out/nvim
-          cp -r ${./.}/* $out/nvim/
+          mkdir -p $out/
+          cp -r ${./.}/* $out/
         '';
       in
       {
@@ -26,8 +26,8 @@
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
-                --add-flags "--cmd 'set runtimepath^=${nvimConfigPath}/nvim'" \
-                --add-flags "-u ${nvimConfigPath}/nvim/init.lua"
+                --add-flags "--cmd 'set runtimepath^=${nvimConfigPath}/'" \
+                --add-flags "-u ${nvimConfigPath}/init.lua"
           '';
 
           meta.mainProgram = "nvim";

@@ -8,7 +8,7 @@
   };
 
   outputs =
-    { nixpkgs, flake-utils, ... }:
+    { nixpkgs, flake-utils, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
@@ -21,7 +21,7 @@
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/kitty \
-                --add-flags "--config=${./kitty.conf}"
+                --set KITTY_CONFIG_DIRECTORY ${./.}
           '';
         };
       }

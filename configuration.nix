@@ -67,9 +67,6 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
   services.thermald.enable = true;
   services.auto-cpufreq.enable = true;
   services.auto-cpufreq.settings = {
@@ -134,6 +131,7 @@
     imv
 
     kitty
+    # inputs.kitty.packages.${pkgs.stdenv.hostPlatform.system}.default
     fuzzel
     vesktop
     catppuccin-cursors.mochaDark
